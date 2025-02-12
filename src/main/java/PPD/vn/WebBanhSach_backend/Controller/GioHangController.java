@@ -49,6 +49,7 @@ public class GioHangController {
         }
         return ResponseEntity.badRequest().body("Số lượng đã đạt giới hạn");
     }
+
     @DeleteMapping("/xoa-so-luong")
     public ResponseEntity<?> xoaChiTietGioHang(@Validated @RequestBody ChiTietGioHangDTO chiTietGioHang){
         System.out.println("ma sach"+chiTietGioHang);
