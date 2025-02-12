@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        }
+        .register-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .form-control {
+            border-radius: 10px;
+            padding-left: 2.5rem;
+            transition: all 0.3s ease-in-out;
+        }
+        .form-control:focus {
+            border-color: #ff758c;
+            box-shadow: 0 0 10px rgba(255, 117, 140, 0.5);
+        }
+        .input-group-text {
+            border-radius: 10px 0 0 10px;
+            background: #ff758c;
+            color: #fff;
+        }
+        .btn-custom {
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            border: none;
+            color: white;
+            transition: all 0.3s ease-in-out;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 25px;
+        }
+        .btn-custom:hover {
+            background: linear-gradient(135deg, #ff5e78, #ff6584);
+        }
+    </style>
+</head>
+<body>
+<div class="register-container">
+    <h2 class="text-center mb-4">Đăng Ký</h2>
+    <form th:action="@{/dang-ki}" method="post">
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-user"></i></span>
+            <input type="text" id="fullname" name="fullname" class="form-control" placeholder="Nhập họ và tên" required>
+        </div>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Nhập email" required>
+        </div>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+            <input type="text" id="accountname" name="accountname" class="form-control" placeholder="Nhập tên đăng nhập" required>
+        </div>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Nhập mật khẩu" required>
+        </div>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            <input type="password" id="confirm-password" name="confirm-password" class="form-control" placeholder="Nhập lại mật khẩu" required>
+        </div>
+        <button type="submit" class="btn btn-custom w-100">Đăng Ký</button>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
