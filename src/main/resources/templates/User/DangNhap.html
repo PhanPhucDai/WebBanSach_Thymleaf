@@ -54,7 +54,7 @@
 <body>
 <div class="login-container">
     <h2 class="text-center mb-4">Đăng Nhập</h2>
-    <form th:action="@{/tai-khoan/dang-nhap}" method="post">
+    <form th:action="@{/kiemtradangnhap}" method="post">
         <div class="mb-3 input-group">
             <span class="input-group-text"><i class="fas fa-user"></i></span>
             <input type="text" id="accountname" name="accountname" class="form-control" placeholder="Nhập tên đăng nhập" required>
@@ -62,6 +62,9 @@
         <div class="mb-3 input-group">
             <span class="input-group-text"><i class="fas fa-lock"></i></span>
             <input type="password" id="password" name="password" class="form-control" placeholder="Nhập mật khẩu" required>
+        </div>
+        <div class="mb-3 input-group" th:if="${error}">
+            <span class="text-danger" th:text="${error}">*</span>
         </div>
         <button type="submit" class="btn btn-custom w-100">Đăng Nhập</button>
     </form>

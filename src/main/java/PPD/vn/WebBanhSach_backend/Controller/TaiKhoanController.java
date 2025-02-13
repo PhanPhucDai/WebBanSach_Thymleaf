@@ -8,18 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("tai-khoan")
 public class TaiKhoanController {
     @Autowired
     private TaiKhoanService taiKhoanService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     private NguoiDungService nguoiDungService;
@@ -27,9 +25,8 @@ public class TaiKhoanController {
 
 
     @PostMapping("/dang-ki")
-    public ResponseEntity<?> dangKiTaiKhoan(@Validated @RequestBody  NguoiDung nguoiDung){
-        ResponseEntity<?> response = taiKhoanService.dangKiNguoiDung(nguoiDung);
-        return  response;
+    public String dangKiTaiKhoan(Model model){
+        return  "/User/DangKy";
     }
 
     @GetMapping("/kich-hoat")

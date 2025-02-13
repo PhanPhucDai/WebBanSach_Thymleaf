@@ -32,15 +32,7 @@ public class NguoiDungImplement implements NguoiDungService{
         return nguoiDungRespository.findByTenDangNhap(tenDangNhap);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        NguoiDung nguoiDung = nguoiDungRespository.findByTenDangNhap(username);
-        if(nguoiDung==null) {
-            throw new UsernameNotFoundException("Tài khoản không tồn tại");
-        }
-        User user = new User(nguoiDung.getTenDangNhap(), nguoiDung.getMatKhau(), rolesToAuthorities(nguoiDung.getDanhSachQuyen()) );
-        return user;
-    }
+
     private Collection<? extends GrantedAuthority> rolesToAuthorities(Collection<Quyen> quyens ) {
         return quyens.stream().map(quyen->new SimpleGrantedAuthority(quyen.getTenQuyen())).collect(Collectors.toList());
 

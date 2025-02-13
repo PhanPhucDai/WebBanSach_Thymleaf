@@ -1,7 +1,6 @@
 package PPD.vn.WebBanhSach_backend.Security;
 
 public class Endpoints {
-    public static final String frontEnd_host = "http://localhost:3000";
 
     public  static  final String[] PUBLIC_GET_ENPOINT= {
             "/sach"
@@ -18,6 +17,7 @@ public class Endpoints {
             ,"/nguoi-dung/search/existsByEmail"
             ,"/tai-khoan/kich-hoat"
             ,"/gio-hang/**"
+            ,"/trang-chu"
 
     };
 
