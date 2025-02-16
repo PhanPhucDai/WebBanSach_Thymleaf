@@ -3,17 +3,21 @@ package PPD.vn.WebBanhSach_backend.Entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "nguoi_dung")
 public class NguoiDung {
     @Id
     @GeneratedValue( strategy =  GenerationType.IDENTITY)
     @Column(name = "ma_nguoi_dung")
-    private int maNguoiDung;
+    private Integer maNguoiDung;
     @Column(name = "ho_dem", length = 255)
     private String hoDem;
     @Column(name = "ten", length = 255)
@@ -28,10 +32,6 @@ public class NguoiDung {
     private String email;
     @Column(name = "so_dien_thoai")
     private String soDienThoai;
-    @Column(name = "dia_chi_mua_hang")
-    private String diaChiMuaHang;
-    @Column(name = "dia_chi_giao_hang")
-    private String diaChiGiaoHang;
     @Column(name = "isKichHoat")
     private Boolean isKichHoat;
     @Column(name = "maKichHoat")
@@ -96,5 +96,21 @@ public class NguoiDung {
             }
     )
     private List<DonHang> danhSachDonHang;
+
+
+         public NguoiDung(String hoDem, String ten, String tenDangNhap,
+                         String matKhau, String gioiTinh, String email,
+                         String soDienThoai, Boolean isKichHoat, String maKichHoat) {
+            this.hoDem = hoDem;
+            this.ten = ten;
+            this.tenDangNhap = tenDangNhap;
+            this.matKhau = matKhau;
+            this.gioiTinh = gioiTinh;
+            this.email = email;
+            this.soDienThoai = soDienThoai;
+            this.isKichHoat = isKichHoat;
+            this.maKichHoat = maKichHoat;
+        }
+
 
 }

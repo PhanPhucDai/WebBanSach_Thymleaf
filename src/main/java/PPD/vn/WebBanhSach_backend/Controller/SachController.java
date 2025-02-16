@@ -21,7 +21,9 @@ public class SachController {
     private SachRespository sachRespository;
 
     @GetMapping("/sach-all")
-    public String listSach(@RequestParam(defaultValue = "1")int page,@RequestParam(defaultValue = "8")int size,  Model model){
+    public String listSach(@RequestParam(name = "page", defaultValue = "1") int page,
+                           @RequestParam(name = "size", defaultValue = "8") int size,
+                           Model model){
         Pageable pageable = PageRequest.of(page, size);
         model.addAttribute("sachList",   sachRespository.findAll(pageable));
         model.addAttribute("currentPage", page);

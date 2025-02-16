@@ -125,31 +125,31 @@ public class GioHangController {
 
     }
 
-    @GetMapping("/Chi-tiet-gio-hang/isSelected")
-    public ResponseEntity<?> getItemIsSelected(@Validated @RequestParam("maNguoiDung")  int maNguoiDung){
-
-        Optional<NguoiDung> nguoiDung= nguoiDungRespository.findById(maNguoiDung);
-        GioHang gioHang = nguoiDung.get().getGioHang();
-        List<ChiTietGioHang> chiTietGioHang = chiTietGioHangRepository.findByGioHang(gioHang);
-        try {
-            List<ChiTietGioHangDTO> listChiTietGioHangDTO = new ArrayList<>();
-            for(ChiTietGioHang chiTietGioHang1: chiTietGioHang) {
-                if(chiTietGioHang1.getIsSelected() == 1){
-                    ChiTietGioHangDTO chiTietGioHangDTO
-                            = new ChiTietGioHangDTO(
-                            chiTietGioHang1.getMaChiTietGioHang()
-                            , chiTietGioHang1.getSach().getMaSach()
-                            , chiTietGioHang1.getGioHang().getMaGioHang()
-                            , chiTietGioHang1.getSoluong()
-                            , chiTietGioHang1.getIsSelected()
-                    );
-                    listChiTietGioHangDTO.add(chiTietGioHangDTO);
-                }
-            }
-            return ResponseEntity.ok(listChiTietGioHangDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.badRequest().body("Không thể thêm sản phẩm này");
-    }
+//    @GetMapping("/Chi-tiet-gio-hang/isSelected")
+//    public ResponseEntity<?> getItemIsSelected(@Validated @RequestParam("maNguoiDung")  int maNguoiDung){
+//
+//        Optional<NguoiDung> nguoiDung= nguoiDungRespository.findById(maNguoiDung);
+//        GioHang gioHang = nguoiDung.get().getGioHang();
+//        List<ChiTietGioHang> chiTietGioHang = chiTietGioHangRepository.findByGioHang(gioHang);
+//        try {
+//            List<ChiTietGioHangDTO> listChiTietGioHangDTO = new ArrayList<>();
+//            for(ChiTietGioHang chiTietGioHang1: chiTietGioHang) {
+//                if(chiTietGioHang1.getIsSelected() == 1){
+//                    ChiTietGioHangDTO chiTietGioHangDTO
+//                            = new ChiTietGioHangDTO(
+//                            chiTietGioHang1.getMaChiTietGioHang()
+//                            , chiTietGioHang1.getSach().getMaSach()
+//                            , chiTietGioHang1.getGioHang().getMaGioHang()
+//                            , chiTietGioHang1.getSoluong()
+//                            , chiTietGioHang1.getIsSelected()
+//                    );
+//                    listChiTietGioHangDTO.add(chiTietGioHangDTO);
+//                }
+//            }
+//            return ResponseEntity.ok(listChiTietGioHangDTO);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return ResponseEntity.badRequest().body("Không thể thêm sản phẩm này");
+//    }
 }
