@@ -18,7 +18,7 @@ public class GioHang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ma_gio_hang")
-    private int maGioHang;
+    private Integer maGioHang;
 
 
     @OneToOne(cascade = { CascadeType.ALL})
@@ -28,5 +28,7 @@ public class GioHang {
     @OneToMany(cascade = {CascadeType.MERGE},mappedBy = "gioHang", fetch =  FetchType.LAZY)
     private List<ChiTietGioHang> chiTietGioHang;
 
-
+    public GioHang(NguoiDung nguoiDung) {
+        this.nguoiDung = nguoiDung;
+    }
 }

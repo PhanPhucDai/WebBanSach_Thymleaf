@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class DangKy {
     @GetMapping(value = "/dang-ky")
     public String dangKy(){
-        return "./templates/User/DangKy";
+        return "User/DangKy";
     }
 }

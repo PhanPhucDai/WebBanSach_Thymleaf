@@ -17,7 +17,6 @@ public class DangNhap {
         if (error != null) {
             model.addAttribute("error", "Đăng kí thất bại. Vui lòng thử lại.");}
         if (success != null) {
-
             model.addAttribute("success", "Đăng ký thành công. Vui lòng đăng nhập.");}
         return "User/DangNhap";}
 

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RepositoryRestResource(path = "sach")
 public interface SachRespository extends JpaRepository<Sach, Integer> {
+    Page<Sach> findAll(Pageable pageable);
+
     Page<Sach> findByTenSachContaining(@RequestParam("tenSach")String tenSach, Pageable pageable);
 
     Page<Sach> findByDanhSachTheLoai_MaTheLoai(@RequestParam("maTheLoai")int maTheLoai, Pageable pageable);

@@ -1,8 +1,10 @@
 package PPD.vn.WebBanhSach_backend.Service;
 
 
+import PPD.vn.WebBanhSach_backend.Entity.GioHang;
 import PPD.vn.WebBanhSach_backend.Entity.NguoiDung;
 import PPD.vn.WebBanhSach_backend.Entity.ThongBaoLoi;
+import PPD.vn.WebBanhSach_backend.Rest.GioHangRespository;
 import PPD.vn.WebBanhSach_backend.Rest.NguoiDungRespository;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,28 +20,28 @@ public class TaiKhoanService {
     private NguoiDungRespository nguoiDungRespository;
     @Autowired
     private EmailServiceImp emailServiceImp;
+    @Autowired
+    private GioHangRespository gioHangRespository;
 
 
-    public ResponseEntity<?> dangKiNguoiDung(NguoiDung nguoiDung){
+    public int dangKiNguoiDung(NguoiDung nguoiDung){
         if(nguoiDungRespository.existsByTenDangNhap(nguoiDung.getTenDangNhap())){
-            return ResponseEntity.badRequest().body(new ThongBaoLoi("Tên đăng nhập đã tòn tại"));
+            return -2;
         }
         //kiểm tra email tồn tại
         if(nguoiDungRespository.existsByEmail(nguoiDung.getEmail())){
-            return ResponseEntity.badRequest().body(new ThongBaoLoi("Email đã tòn tại"));
+            return -3;
         }
-        //ma hoa mat khau
-        BCryptPasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
-        String enscryptPassword = passwordEncoder.encode(nguoiDung.getMatKhau());
-        nguoiDung.setMatKhau(enscryptPassword);
-        //Gán và gửi thông tin kích hoạt
+
         nguoiDung.setMaKichHoat(taoMaKichHoat());
         nguoiDung.setIsKichHoat(false);
         //lưu người dùng vào cơ sở dũ liệu
-        NguoiDung nguoiDung_daDangKi = nguoiDungRespository.save(nguoiDung);
+        nguoiDungRespository.save(nguoiDung);
+        gioHangRespository.save(new GioHang(nguoiDung));
+
         //Gửi email cho người dùng kích hoạt
         guiEmailKichHoat(nguoiDung.getEmail(), nguoiDung.getMaKichHoat());
-        return ResponseEntity.ok("Đăng kí thành công");
+        return  1;
     }
 
     public ResponseEntity<?> kichHoatTaiKhoan(String  emai, String maKichHoat){
