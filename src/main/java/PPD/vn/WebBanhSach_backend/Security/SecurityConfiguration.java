@@ -40,12 +40,9 @@ public class SecurityConfiguration {
 
         security.authorizeHttpRequests(
                configurer->configurer
-                       .requestMatchers(HttpMethod.GET, Endpoints.PUBLIC_GET_ENPOINT).permitAll()
-                       .requestMatchers(HttpMethod.PUT, Endpoints.PUBLIC_GET_ENPOINT).permitAll()
-                       .requestMatchers(HttpMethod.POST, Endpoints.User_POST_ENPOINT_DangKi).hasAuthority("User")
+                       .requestMatchers(HttpMethod.GET,Endpoints.PUBLIC_POST_ENPOINT_DangKi).permitAll()
                        .requestMatchers(HttpMethod.POST,Endpoints.PUBLIC_POST_ENPOINT_DangKi).permitAll()
                        .requestMatchers(HttpMethod.DELETE,Endpoints.PUBLIC_POST_ENPOINT_DangKi).permitAll()
-                       .requestMatchers(HttpMethod.POST,Endpoints.ADMIN_POST_ENPOINT_DangKi).hasAuthority("Admin")
                        .anyRequest().authenticated()
        ).formLogin(form->form
                .loginPage("/dang-nhap")

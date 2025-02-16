@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,69 +20,65 @@
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 500px;
+            max-width: 400px;
+            text-align: center;
         }
-        .form-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
+        .form-control {
+            border-radius: 10px;
+            padding-left: 2.5rem;
+            transition: all 0.3s ease-in-out;
         }
-        .form-group label {
-            flex: 1;
-            margin-right: 10px;
-            font-weight: bold;
+        .form-control:focus {
+            border-color: #ff758c;
+            box-shadow: 0 0 10px rgba(255, 117, 140, 0.5);
         }
-        .form-group input {
-            flex: 2;
+        .input-group-text {
+            border-radius: 10px 0 0 10px;
+            background: #ff758c;
+            color: #fff;
         }
         .btn-custom {
             background: linear-gradient(135deg, #ff758c, #ff7eb3);
             border: none;
             color: white;
+            transition: all 0.3s ease-in-out;
             font-size: 18px;
             padding: 10px;
             border-radius: 25px;
-            width: 100%;
+        }
+        .btn-custom:hover {
+            background: linear-gradient(135deg, #ff5e78, #ff6584);
         }
     </style>
 </head>
 <body>
 <div class="register-container">
-    <h2 class="text-center mb-4">Đăng ký</h2>
-    <form>
-        <div class="form-group">
-            <label for="username">Tên đăng nhập:</label>
-            <input type="text" id="username" name="username" class="form-control" required>
+    <h2 class="text-center mb-4">Đăng Ký</h2>
+    <form th:action="@{/dang-ki}" method="post">
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-user"></i></span>
+            <input type="text" id="fullname" name="fullname" class="form-control" placeholder="Nhập họ và tên" required>
         </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" class="form-control" required>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Nhập email" required>
         </div>
-        <div class="form-group">
-            <label for="password">Mật khẩu:</label>
-            <input type="password" id="password" name="password" class="form-control" required>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+            <input type="text" id="accountname" name="accountname" class="form-control" placeholder="Nhập tên đăng nhập" required>
         </div>
-        <div class="form-group">
-            <label for="confirm-password">Nhập lại MK:</label>
-            <input type="password" id="confirm-password" name="confirm-password" class="form-control" required>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Nhập mật khẩu" required>
         </div>
-        <div class="form-group">
-            <label for="firstname">Tên:</label>
-            <input type="text" id="firstname" name="firstname" class="form-control" required>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            <input type="password" id="confirm-password" name="confirm-password" class="form-control" placeholder="Nhập lại mật khẩu" required>
         </div>
-        <div class="form-group">
-            <label for="middlename">Họ đệm:</label>
-            <input type="text" id="middlename" name="middlename" class="form-control" required>
+        <div>
+            <a th:href="@{/dang-nhap}"  class="text-primary mb-3" style="text-align: right;">Đã có tài khoản</a>
         </div>
-        <div class="form-group">
-            <label for="phone">Số ĐT:</label>
-            <input type="text" id="phone" name="phone" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="gender">Giới tính:</label>
-            <input type="text" id="gender" name="gender" class="form-control" >
-        </div>
-        <button type="submit" class="btn btn-custom">Đăng kí</button>
+        <button type="submit" class="btn btn-custom w-100">Đăng Ký</button>
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

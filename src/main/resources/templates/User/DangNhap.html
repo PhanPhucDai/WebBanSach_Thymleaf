@@ -66,6 +66,9 @@
         <div class="mb-3 input-group" th:if="${error}">
             <span class="text-danger" th:text="${error}">*</span>
         </div>
+        <div class="mb-3 input-group">
+            <a th:href="@{/dang-ky}" class="text-primary ms-3">Quên mật khẩu</a>
+        </div>
         <button type="submit" class="btn btn-custom w-100">Đăng Nhập</button>
     </form>
 </div>
