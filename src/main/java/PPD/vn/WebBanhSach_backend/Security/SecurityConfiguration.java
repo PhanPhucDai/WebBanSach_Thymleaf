@@ -49,7 +49,7 @@ public class SecurityConfiguration {
                .loginProcessingUrl("/kiemtradangnhap")
                .usernameParameter("accountname")
                .passwordParameter("password")
-               .defaultSuccessUrl("/trang-chu",true)
+               .defaultSuccessUrl("/sach/sach-all",true)
                .failureUrl("/dang-nhap?error")
                .permitAll()
        ).logout(logout->logout
