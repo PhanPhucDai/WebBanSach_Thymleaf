@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="UTF-8" />
     <title>Trang Chủ</title>
@@ -23,9 +23,9 @@
     <div class="container">
       <nav class="navbar navbar-expand-lg bg-primary-subtle mb-3 rounded-2" style="background: linear-gradient(135deg, #ff9a9e, #fad0c4);">
         <div class="container">
-          <a class="navbar-brand" href="./Home.html">
+          <a class="navbar-brand" th:href="@{/Home.html}">
             <img
-              src="../../static/logo.jpg"
+              th:src="@{/logo.jpg}"
               style="height: 60px; border-radius: 4px"
               alt="logo"
             />
@@ -113,7 +113,7 @@
 
       <div class="text-center mb-5">
         <img
-          src="../../static/banner.jpg"
+          th:src="@{/banner.jpg}"
           style="width: -webkit-fill-available; "
           class="rounded-2 shadow"
           alt="banner"
@@ -122,64 +122,13 @@
     <div class="mb-5 rounded-2" style="height: auto; padding: 2rem; background: linear-gradient(135deg, #ff9a9e, #fad0c4);">
         <h1>Nội dung</h1>
         <div class="row row-cols-1 row-cols-md-4 g-4">
-          <div class="col">
+          <div class="col" th:each="sach: ${sachList}">
             <div class="card">
-              <img src="../../static/sach.jpg" class="card-img-top" alt="...">
+              <img th:src="@{/sach.jpg}" class="card-img-top" alt="...">
               <div class="card-body">
-                <h3 class="card-text">Name</h3>
-                <p class="card-title">Đây là sách</p>
-                <p class="card-title ">Giá : <span style="text-decoration: line-through;">100.000 vnđ</span> <span class="text-danger">99.000 vnđ</span></p>
-                <div class="d-flex justify-content-center">
-                  <a href="#" class="btn btn-primary">Mua ngay</a>
-                </div>
-                <div class="d-flex justify-content-end">
-                  <a href="#" class="text-danger mx-2"><i class="fas fa-heart fa-2x"></i></a>
-                  <a href="#" class="text-dark mx-2"><i class="fas fa-shopping-cart fa-2x"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card">
-              <img src="../../static/sach.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h3 class="card-text">Name</h3>
-                <p class="card-title">Đây là sách</p>
-                <p class="card-title ">Giá : <span style="text-decoration: line-through;">100.000 vnđ</span> <span class="text-danger">99.000 vnđ</span></p>
-                <div class="d-flex justify-content-center">
-                  <a href="#" class="btn btn-primary">Mua ngay</a>
-                </div>
-                <div class="d-flex justify-content-end">
-                  <a href="#" class="text-danger mx-2"><i class="fas fa-heart fa-2x"></i></a>
-                  <a href="#" class="text-dark mx-2"><i class="fas fa-shopping-cart fa-2x"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card">
-              <img src="../../static/sach.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h3 class="card-text">Name</h3>
-                <p class="card-title">Đây là sách</p>
-                <p class="card-title ">Giá : <span style="text-decoration: line-through;">100.000 vnđ</span> <span class="text-danger">99.000 vnđ</span></p>
-                <div class="d-flex justify-content-center">
-                  <a href="#" class="btn btn-primary">Mua ngay</a>
-                </div>
-                <div class="d-flex justify-content-end">
-                  <a href="#" class="text-danger mx-2"><i class="fas fa-heart fa-2x"></i></a>
-                  <a href="#" class="text-dark mx-2"><i class="fas fa-shopping-cart fa-2x"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card">
-              <img src="../../static/sach.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h3 class="card-text">Name</h3>
-                <p class="card-title">Đây là sách</p>
-                <p class="card-title ">Giá : <span style="text-decoration: line-through;">100.000 vnđ</span> <span class="text-danger">99.000 vnđ</span></p>
+                <h3 class="card-text" th:text="${sach.tenSach}"></h3>
+                <p class="card-title" >Đây là sách</p>
+                <p class="card-title " >Giá : <span style="text-decoration: line-through;" th:text="${sach.giaBan}"></span> <span class="text-danger" th:text="${sach.giaNiemYet}"> </span></p>
                 <div class="d-flex justify-content-center">
                   <a href="#" class="btn btn-primary">Mua ngay</a>
                 </div>
@@ -191,83 +140,19 @@
             </div>
           </div>
         </div>
+      <div  class="pagination d-flex justify-content-center mt-4">
+        <a th:if="${currentPage > 0}" th:href="@{/sach/sach-all(page=${currentPage - 1})}"  class="btn btn-secondary mx-2"><-</a>
+        <span class="mx-2 btn" th:text="${currentPage}"></span>
+        <a th:if="${sachList.hasNext()}" th:href="@{/sach/sach-all(page=${currentPage + 1})}"  class="btn btn-secondary mx-2">-></a>
+      </div>
+      </div>
 
-        <div class="row row-cols-1 row-cols-md-4 g-4 mt-5">
-          <div class="col">
-            <div class="card">
-              <img src="../../static/sach.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h3 class="card-text">Name</h3>
-                <p class="card-title">Đây là sách</p>
-                <p class="card-title ">Giá : <span style="text-decoration: line-through;">100.000 vnđ</span> <span class="text-danger">99.000 vnđ</span></p>
-                <div class="d-flex justify-content-center">
-                  <a href="#" class="btn btn-primary">Mua ngay</a>
-                </div>
-                <div class="d-flex justify-content-end">
-                  <a href="#" class="text-danger mx-2"><i class="fas fa-heart fa-2x"></i></a>
-                  <a href="#" class="text-dark mx-2"><i class="fas fa-shopping-cart fa-2x"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card">
-              <img src="../../static/sach.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h3 class="card-text">Name</h3>
-                <p class="card-title">Đây là sách</p>
-                <p class="card-title ">Giá : <span style="text-decoration: line-through;">100.000 vnđ</span> <span class="text-danger">99.000 vnđ</span></p>
-                <div class="d-flex justify-content-center">
-                  <a href="#" class="btn btn-primary">Mua ngay</a>
-                </div>
-                <div class="d-flex justify-content-end">
-                  <a href="#" class="text-danger mx-2"><i class="fas fa-heart fa-2x"></i></a>
-                  <a href="#" class="text-dark mx-2"><i class="fas fa-shopping-cart fa-2x"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card">
-              <img src="../../static/sach.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h3 class="card-text">Name</h3>
-                <p class="card-title">Đây là sách</p>
-                <p class="card-title ">Giá : <span style="text-decoration: line-through;">100.000 vnđ</span> <span class="text-danger">99.000 vnđ</span></p>
-                <div class="d-flex justify-content-center">
-                  <a href="#" class="btn btn-primary">Mua ngay</a>
-                </div>
-                <div class="d-flex justify-content-end">
-                  <a href="#" class="text-danger mx-2"><i class="fas fa-heart fa-2x"></i></a>
-                  <a href="#" class="text-dark mx-2"><i class="fas fa-shopping-cart fa-2x"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card">
-              <img src="../../static/sach.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h3 class="card-text">Name</h3>
-                <p class="card-title">Đây là sách</p>
-                <p class="card-title ">Giá : <span style="text-decoration: line-through;">100.000 vnđ</span> <span class="text-danger">99.000 vnđ</span></p>
-                <div class="d-flex justify-content-center">
-                  <a href="#" class="btn btn-primary">Mua ngay</a>
-                </div>
-                <div class="d-flex justify-content-end">
-                  <a href="#" class="text-danger mx-2"><i class="fas fa-heart fa-2x"></i></a>
-                  <a href="#" class="text-dark mx-2"><i class="fas fa-shopping-cart fa-2x"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
     </div>
 
     <!-- Footer -->
     <div>
         <div class="text-center mb-3">
-          <img src="../../static/ftbanner.jpg" alt="" style="width: -webkit-fill-available; border-radius: 4px;"/>
+          <img th:src="@{ftbanner.jpg}" alt="" style="width: -webkit-fill-available; border-radius: 4px;"/>
         </div>
         <footer class="rounded-2 text-white py-4 mt-5" style="background: linear-gradient(135deg, #ff9a9e, #fad0c4);">
             <div class="container">
