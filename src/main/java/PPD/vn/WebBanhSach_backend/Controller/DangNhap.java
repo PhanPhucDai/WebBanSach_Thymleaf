@@ -15,9 +15,9 @@ public class DangNhap {
                            @RequestParam(value = "success", required = false) String success,
                            Model model) {
         if (error != null) {
-            model.addAttribute("error", "Đăng kí thất bại. Vui lòng thử lại.");}
+            model.addAttribute("error", "Đăng nhập thất bại. Vui lòng thử lại.");}
         if (success != null) {
-            model.addAttribute("success", "Đăng ký thành công. Vui lòng đăng nhập.");}
+            model.addAttribute("success", "Đăng nhập thành công. Vui lòng đăng nhập.");}
         return "User/DangNhap";}
 
 }
