@@ -90,21 +90,27 @@ public class GioHangService {
         }
     }
     @Transactional
-    public int themSanPhamGioHang(ChiTietGioHang chiTietGioHang) {
+    public int themSanPhamGioHang(ChiTietGioHangDTO chiTietGioHangdto) {
         try {
-             GioHang gioHang = gioHangRespository.findById(chiTietGioHang.getGioHang().getMaGioHang())
+             GioHang gioHang = gioHangRespository.findById(String.valueOf(chiTietGioHangdto.getGioHang()))
                     .orElseThrow(() -> new RuntimeException("Không thể tìm thấy giỏ hàng"));
-             Sach sach = sachRespository.findById(chiTietGioHang.getSach().getMaSach())
+             Sach sach = sachRespository.findById(chiTietGioHangdto.getSach())
                     .orElseThrow(() -> new RuntimeException("Không thể tìm thấy sách"));
              Optional<ChiTietGioHang> existingItem = chiTietGioHangRepository.findByGioHangAndSach(gioHang, sach);
 
             if (existingItem.isPresent()) {
                 ChiTietGioHang item = existingItem.get();
-                item.setSoluong(item.getSoluong() + chiTietGioHang.getSoluong());
+                item.setSoluong(item.getSoluong() + chiTietGioHangdto.getSoluong());
                 item.setIsSelected(0);
                 chiTietGioHangRepository.save(item);
             } else {
-                 chiTietGioHangRepository.save(chiTietGioHang);
+                ChiTietGioHang newItem = new ChiTietGioHang();
+                newItem.setGioHang(gioHang);
+                newItem.setSach(sach);
+                newItem.setSoluong(chiTietGioHangdto.getSoluong());
+                newItem.setIsSelected(0);
+
+                 chiTietGioHangRepository.save(newItem);
             }
             return 1; // Thành công
         } catch (Exception exception){
@@ -113,7 +119,7 @@ public class GioHangService {
     }
     @Transactional
     public int isSelected(ChiTietGioHangDTO chiTietGioHangDTO){
-        Optional<GioHang> gioHang= gioHangRespository.findById(chiTietGioHangDTO.getGioHang());
+        Optional<GioHang> gioHang= gioHangRespository.findById(String.valueOf(chiTietGioHangDTO.getGioHang()));
         Optional<Sach> sach = sachRespository.findById(chiTietGioHangDTO.getSach());
 
             if(sach.isPresent() && gioHang.isPresent()){

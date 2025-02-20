@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>Detail</title>
@@ -38,7 +38,7 @@
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" href="./Home.html"
+              <a class="nav-link active" th:href="@{/sach/sach-all}"
               ><i class="fas fa-home fs-3"></i> Trang Chủ</a
               >
             </li>
@@ -53,7 +53,7 @@
                 <i class="fas fa-th-list fs-3"></i> Thể Loại
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">📚 Tiểu Thuyết</a></li>
+                <li><a class="dropdown-item" href="">📚 Tiểu Thuyết</a></li>
                 <li><a class="dropdown-item" href="#">📖 Khoa Học</a></li>
                 <li><a class="dropdown-item" href="#">🎭 Truyện Tranh</a></li>
                 <li><a class="dropdown-item" href="#">💡 Kinh Tế</a></li>
@@ -106,27 +106,26 @@
     <div class="row mb-4">
 
       <div class="col-6">
-        <img src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935083583275.jpg" alt="" class="img-fluid"/>
+        <img th:src="${sach.duLieuAnh}" alt="" class="img-fluid"/>
       </div>
       <div class="col-6">
-        <h1 class="text">Sách nè he</h1>
-        <p class="text-secondary fs-5">Tác giả: Nguyễn Văn A</p>
-        <p class="text-secondary fs-5">NXB: NXB Lâm Đồng</p>
-        <p><span class="text-danger fs-3 ">giá :  120.000 VND</span> <span class="text-decoration-line-through fs-4 p-2">150.000 VND</span></p>
+        <h1 class="text" th:text="${sach.tenSach}"></h1>
+        <p class="text-secondary fs-5">Tác giả:<span th:text="${sach.tenTacGia}"></span>  </p>
+        <p><span class="text-danger fs-3 " th:text="${sach.giaNiemYet}"></span> <span class="text-decoration-line-through fs-4 p-2" th:text="${sach.giaBan}">150.000 VND</span></p>
         <button class="btn btn-outline-primary">Thêm vào giỏ hàng</button>
         <button class="btn btn-primary">Mua ngay</button>
       </div>
 
     </div>
     <h2 class="text-center mb-4">Sản phẩm liên quan</h2>
-    <div class="row">
+    <div class="row" th:each="sach: ${listSachByTheLoai}">
       <div class="col">
         <div class="card">
-          <img src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935083583275.jpg" class="card-img-top" alt="...">
+          <img th:src="${sach.duLieuAnh}" class="card-img-top" alt="...">
           <div class="card-body">
-            <h3 class="card-text">Name</h3>
+            <h3 class="card-text" th:text="${sach.tenSach}"> </h3>
             <p class="card-title">Đây là sách</p>
-            <p class="card-title ">Giá : <span style="text-decoration: line-through;">100.000 vnđ</span> <span class="text-danger">99.000 vnđ</span></p>
+            <p class="card-title ">Giá : <span style="text-decoration: line-through;" th:text="${sach.giaNiemYet}"></span> <span  th:text="${sach.giaBan}" class="text-danger">99.000 vnđ</span></p>
 
             <div class="d-flex justify-content-end">
               <a href="#" class="text-danger mx-2 fs-5"><i class="fas fa-heart fa-2x"></i></a>
@@ -137,57 +136,8 @@
           </div>
         </div>
       </div>
-      <div class="col">
-        <div class="card">
-          <img src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935083583275.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h3 class="card-text">Name</h3>
-            <p class="card-title">Đây là sách</p>
-            <p class="card-title ">Giá : <span style="text-decoration: line-through;">100.000 vnđ</span> <span class="text-danger">99.000 vnđ</span></p>
 
-            <div class="d-flex justify-content-end">
-              <a href="#" class="text-danger mx-2 fs-5"><i class="fas fa-heart fa-2x"></i></a>
-              <a href="#" class="text-dark mx-2"><i class="fas fa-shopping-cart fa-2x"></i></a>
-              <a href="#" class="btn btn-primary">Mua ngay</a>
 
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935083583275.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h3 class="card-text">Name</h3>
-            <p class="card-title">Đây là sách</p>
-            <p class="card-title ">Giá : <span style="text-decoration: line-through;">100.000 vnđ</span> <span class="text-danger">99.000 vnđ</span></p>
-
-            <div class="d-flex justify-content-end">
-              <a href="#" class="text-danger mx-2 fs-5"><i class="fas fa-heart fa-2x"></i></a>
-              <a href="#" class="text-dark mx-2"><i class="fas fa-shopping-cart fa-2x"></i></a>
-              <a href="#" class="btn btn-primary">Mua ngay</a>
-
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935083583275.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h3 class="card-text">Name</h3>
-            <p class="card-title">Đây là sách</p>
-            <p class="card-title ">Giá : <span style="text-decoration: line-through;">100.000 vnđ</span> <span class="text-danger">99.000 vnđ</span></p>
-
-            <div class="d-flex justify-content-end">
-              <a href="#" class="text-danger mx-2 fs-5"><i class="fas fa-heart fa-2x"></i></a>
-              <a href="#" class="text-dark mx-2"><i class="fas fa-shopping-cart fa-2x"></i></a>
-              <a href="#" class="btn btn-primary">Mua ngay</a>
-
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     <div>
 

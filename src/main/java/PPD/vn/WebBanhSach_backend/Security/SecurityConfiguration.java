@@ -28,16 +28,12 @@ public class SecurityConfiguration {
                         "where ten_dang_nhap = ?"
         );
         System.out.println(manager.getUsersByUsernameQuery());
-
-
         return manager ;
-
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
         System.out.println("SecurityFilterChain đang được sử dụng...");
-
         security.authorizeHttpRequests(
                configurer->configurer
                        .requestMatchers(HttpMethod.GET,Endpoints.PUBLIC_POST_ENPOINT_DangKi).permitAll()
@@ -58,10 +54,10 @@ public class SecurityConfiguration {
                        .logoutSuccessUrl("/dang-nhap")
                        .deleteCookies("JSESSIONID", "remember-me")
                        .permitAll()
-                ).rememberMe(rememberMe->rememberMe
+       ).rememberMe(rememberMe->rememberMe
                         .tokenValiditySeconds(86400)
                         .key("mySecretkey")
-                )
+       )
        .httpBasic(Customizer.withDefaults());
        security.csrf(csrf -> csrf.disable());
        return  security.build();

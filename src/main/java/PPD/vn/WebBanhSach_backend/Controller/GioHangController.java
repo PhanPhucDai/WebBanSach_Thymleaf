@@ -1,28 +1,32 @@
 package PPD.vn.WebBanhSach_backend.Controller;
 
 import PPD.vn.WebBanhSach_backend.DTO.ChiTietGioHangDTO;
-import PPD.vn.WebBanhSach_backend.Entity.ChiTietGioHang;
-import PPD.vn.WebBanhSach_backend.Entity.GioHang;
-import PPD.vn.WebBanhSach_backend.Entity.NguoiDung;
-import PPD.vn.WebBanhSach_backend.Rest.ChiTietGioHangRepository;
-import PPD.vn.WebBanhSach_backend.Rest.GioHangRespository;
-import PPD.vn.WebBanhSach_backend.Rest.NguoiDungRespository;
-import PPD.vn.WebBanhSach_backend.Rest.SachRespository;
+import PPD.vn.WebBanhSach_backend.Entity.*;
+import PPD.vn.WebBanhSach_backend.Rest.*;
 import PPD.vn.WebBanhSach_backend.Service.GioHangService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 
-@RestController
-@RequestMapping("/gio-hang")
+@Controller
 public class GioHangController {
+    @Autowired
+    private HinhAnhRespository hinhAnhRespository;
     @Autowired
     private GioHangService gioHangService;
     @Autowired
@@ -33,6 +37,40 @@ public class GioHangController {
     private GioHangRespository gioHangRespository;
     @Autowired
     private SachRespository sachRespository;
+    @Autowired
+    private HttpServletRequest httpRequest;
+
+    @GetMapping("/gio-hang")
+    public String gioHang(Model model){
+        //Lấy tên đăng nhập đã lưu vào session
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String tenDangNhap=authentication.getName();
+
+        NguoiDung nguoiDung = nguoiDungRespository.findByTenDangNhap(tenDangNhap);
+        GioHang maGioHang = gioHangRespository.findIDGioHangByNguoiDung(nguoiDung.getMaNguoiDung());
+
+
+        List<ChiTietGioHang> chiTietGioHangList = chiTietGioHangRepository.findByGioHang(maGioHang);
+
+        List<ChiTietGioHangDTO> chiTietGioHangDTOS= new ArrayList<>();
+
+        for (ChiTietGioHang ctgh : chiTietGioHangList) {
+            // Xử lý từng phần tử ctgh trong danh sách
+            ChiTietGioHangDTO chiTietGioHangDTO = new ChiTietGioHangDTO();
+            Optional<Sach> sach= sachRespository.findById(ctgh.getSach().getMaSach());
+            HinhAnh hinhAnh =  hinhAnhRespository.findBySachAndLaIcons(ctgh.getSach(), true);
+            chiTietGioHangDTO.setSoluong(ctgh.getSoluong());
+            chiTietGioHangDTO.setIsSelected(ctgh.getIsSelected());
+            chiTietGioHangDTO.setSachAll(sach.get());
+            chiTietGioHangDTO.setDuLieuAnh(hinhAnh.getDuLieuAnh());
+            chiTietGioHangDTOS.add(chiTietGioHangDTO);
+        }
+
+
+
+        model.addAttribute("chiTietGioHangs",chiTietGioHangDTOS);
+       return "User/GioHang";
+    }
 
     @PutMapping("/them-so-luong")
     public ResponseEntity<?> themSoLuong(@Validated @RequestBody ChiTietGioHangDTO chiTietGioHang){
@@ -73,12 +111,29 @@ public class GioHangController {
          return ResponseEntity.badRequest().body("Không thể xóa sản phẩm này");
     }
 
-    @PostMapping("/them-san-pham-gio-hang")
-    public ResponseEntity<?> themSanPhamGioHang(@Validated @RequestBody ChiTietGioHang chiTietGioHang){
+    @GetMapping("/them-san-pham-gio-hang/{maSach}")
+    public String themSanPhamGioHang(Model model
+            , @PathVariable("maSach")int maSach
+            , RedirectAttributes redirectAttributes){
+        System.out.println(maSach);
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String tenDangNhap=authentication.getName();
+        System.out.println("Tên đăng nhập"+ tenDangNhap);
+        NguoiDung nguoiDung = nguoiDungRespository.findByTenDangNhap(tenDangNhap);
+          GioHang maGioHang = gioHangRespository.findIDGioHangByNguoiDung(nguoiDung.getMaNguoiDung());
+
+        ChiTietGioHangDTO chiTietGioHang = new ChiTietGioHangDTO(maSach, maGioHang.getMaGioHang() , 1 );
         if(gioHangService.themSanPhamGioHang(chiTietGioHang)==1){
-            return ResponseEntity.ok().body("Đã thêm thành công");
+            System.out.println("Thành công");
+            //Chuyển về trang trước đó
+            redirectAttributes.addAttribute("message", "Đã thêm thành công");
+            String referer = httpRequest.getHeader("Referer");
+            return "redirect:" + (referer != null ? referer : "/");
+
         }
-        return ResponseEntity.badRequest().body("Không thể thêm sản phẩm này");
+        redirectAttributes.addAttribute("message", "Đã thêm không thành công");
+        String referer = httpRequest.getHeader("Referer");
+        return "redirect:" + (referer != null ? referer : "/");
     }
 
     @PostMapping("/San-pham-gio-hang")
