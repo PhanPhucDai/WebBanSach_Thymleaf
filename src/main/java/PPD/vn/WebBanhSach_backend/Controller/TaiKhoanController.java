@@ -1,6 +1,8 @@
 package PPD.vn.WebBanhSach_backend.Controller;
 
+import PPD.vn.WebBanhSach_backend.Entity.DiaChiGiaoHang;
 import PPD.vn.WebBanhSach_backend.Entity.NguoiDung;
+import PPD.vn.WebBanhSach_backend.Rest.NguoiDungRespository;
 import PPD.vn.WebBanhSach_backend.Service.NguoiDungService;
 import PPD.vn.WebBanhSach_backend.Service.TaiKhoanService;
 import jakarta.persistence.Column;
@@ -9,10 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("tai-khoan")
@@ -22,6 +28,58 @@ public class TaiKhoanController {
 
     @Autowired
     private NguoiDungService nguoiDungService;
+
+    @Autowired
+    private NguoiDungRespository nguoiDungRespository;
+
+    @GetMapping("/nguoi-dung")
+    public String getThongTin(Model model, @ModelAttribute("message")String message){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String tenNguoiDung = authentication.getName();
+
+        NguoiDung nguoiDung = nguoiDungService.findByUsername(tenNguoiDung);
+        model.addAttribute("message", message);
+        model.addAttribute("nguoiDung", nguoiDung);
+        return "User/ThongTinCaNhan";
+    }
+    @GetMapping("/danh-sach-dia-chi")
+    public String getDiaChi(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String tenNguoiDung = authentication.getName();
+        NguoiDung nguoiDung= nguoiDungService.findByUsername(tenNguoiDung);
+        List<DiaChiGiaoHang> diaChiGiaoHang = nguoiDungRespository.diaChiGiaoHangs(nguoiDung.getMaNguoiDung());
+        model.addAttribute("diaChiGiaoHangs", diaChiGiaoHang);
+        return "User/DiaChiCaNhan";
+    }
+
+    @GetMapping("/doi-mat-khau")
+    public String getDoiMatKhau(@ModelAttribute("message")String message,Model model){
+       model.addAttribute("message", message);
+        return "User/DoiMatKhau";
+     }
+    @PostMapping("/doi-mat-khau")
+    public String getDoiMatKhau(RedirectAttributes redirectAttributes
+            ,@RequestParam("matKhauCu") String matKhauCu
+            ,@RequestParam("matKhauMoi") String matKhauMoi
+            ,@RequestParam("matKhauNhapLai")  String matKhauNhapLai){
+        System.out.println("matKhauCu"+matKhauCu);
+        System.out.println("matKhaumoi"+matKhauMoi);
+        System.out.println("matKhauNhapLai"+matKhauNhapLai);
+
+        int rs = taiKhoanService.doiMatKhau(matKhauCu, matKhauMoi, matKhauNhapLai);
+        if(rs == 1){
+            redirectAttributes.addFlashAttribute("message","Thay đổi thành công");
+            return "redirect:/tai-khoan/doi-mat-khau";
+        }else if(rs == 0){
+            redirectAttributes.addFlashAttribute("message","Mật khẩu nhập lại không đúng");
+            return "redirect:/tai-khoan/doi-mat-khau";
+        }else if(rs == -1){
+            redirectAttributes.addFlashAttribute("message","Mật khẩu củ không chính xác");
+            return "redirect:/tai-khoan/doi-mat-khau";
+        }
+        return "redirect:/tai-khoan/doi-mat-khau";
+    }
+
 
     @PostMapping("/dang-ki")
     public String dangKiTaiKhoan(@ModelAttribute NguoiDung nguoiDung,@RequestParam("confirmPassword")String xacNhanMatKhau, Model model){
@@ -73,6 +131,29 @@ public class TaiKhoanController {
 //        ResponseEntity<?> response = taiKhoanService.kichHoatTaiKhoan(email, maKichHoat);
 //        return  response;
 //    }
+
+    @PostMapping("/sua-thong-tin-ca-nhan")
+    public String suaThongTinCaNhan(
+            @RequestParam("soDienThoai") String soDienThoai,
+            @RequestParam("email") String email,
+            RedirectAttributes redirectAttributes,Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        NguoiDung nguoiDung = nguoiDungRespository.findByTenDangNhap(authentication.getName());
+        nguoiDung.setEmail(email);
+        nguoiDung.setSoDienThoai(soDienThoai);
+        try {
+            nguoiDungRespository.save(nguoiDung);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "Không thể chỉnh sửa");
+            return "redirect:/tai-khoan/nguoi-dung";
+
+        }
+        redirectAttributes.addFlashAttribute("message", "Đã chĩnh sữa thành công");
+        return "redirect:/tai-khoan/nguoi-dung";
+   }
+
+
+
 
     private void addUserAttributes(Model model, NguoiDung nguoiDung, String errorField, String errorMessage) {
         model.addAttribute("hoDem", nguoiDung.getHoDem());

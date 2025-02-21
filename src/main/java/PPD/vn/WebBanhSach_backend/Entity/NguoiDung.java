@@ -97,8 +97,15 @@ public class NguoiDung {
     )
     private List<DonHang> danhSachDonHang;
 
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "nguoiDung",
+            cascade = {CascadeType.ALL}
+    )
+    private List<DiaChiGiaoHang> diaChiGiaoHang;
 
-         public NguoiDung(String hoDem, String ten, String tenDangNhap,
+
+    public NguoiDung(String hoDem, String ten, String tenDangNhap,
                          String matKhau, String gioiTinh, String email,
                          String soDienThoai, Boolean isKichHoat, String maKichHoat) {
             this.hoDem = hoDem;

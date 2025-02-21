@@ -1,11 +1,11 @@
 package PPD.vn.WebBanhSach_backend.DTO;
 
 import PPD.vn.WebBanhSach_backend.Entity.Sach;
-import jakarta.persistence.Column;
 import lombok.*;
 
 
 @NoArgsConstructor
+@Data
 public class ChiTietGioHangDTO {
     private int maChiTietGioHang;
     private int soluong;
@@ -36,60 +36,11 @@ public class ChiTietGioHangDTO {
         this.gioHang = gioHang;
 
      }
-
-    public String getDuLieuAnh() {
-        return duLieuAnh;
-    }
-
-    public void setDuLieuAnh(String duLieuAnh) {
-        this.duLieuAnh = duLieuAnh;
-    }
-
-    public Sach getSachAll() {
-        return sachAll;
-    }
-
-    public void setSachAll(Sach sachAll) {
-        this.sachAll = sachAll;
-    }
-
-    public int getMaChiTietGioHang() {
-        return maChiTietGioHang;
-    }
-
-    public void setMaChiTietGioHang(int maChiTietGioHang) {
+    public ChiTietGioHangDTO(int maChiTietGioHang, int sach, int gioHang, int soluong) {
         this.maChiTietGioHang = maChiTietGioHang;
-    }
-
-    public int getSach() {
-        return sach;
-    }
-
-    public void setSach(int sach) {
         this.sach = sach;
-    }
-
-    public Integer getGioHang() {
-        return gioHang;
-    }
-
-    public void setGioHang(Integer gioHang) {
         this.gioHang = gioHang;
-    }
-
-    public int getIsSelected() {
-        return isSelected;
-    }
-
-    public void setIsSelected(int isSelected) {
-        this.isSelected = isSelected;
-    }
-
-    public int getSoluong() {
-        return soluong;
-    }
-
-    public void setSoluong(int soluong) {
         this.soluong = soluong;
     }
+
 }

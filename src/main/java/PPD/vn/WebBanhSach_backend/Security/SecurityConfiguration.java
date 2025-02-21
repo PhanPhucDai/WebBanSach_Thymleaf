@@ -38,7 +38,6 @@ public class SecurityConfiguration {
                configurer->configurer
                        .requestMatchers(HttpMethod.GET,Endpoints.PUBLIC_POST_ENPOINT_DangKi).permitAll()
                        .requestMatchers(HttpMethod.POST,Endpoints.PUBLIC_POST_ENPOINT_DangKi).permitAll()
-                       .requestMatchers(HttpMethod.DELETE,Endpoints.PUBLIC_POST_ENPOINT_DangKi).permitAll()
                        .anyRequest().authenticated()
        ).formLogin(form->form
                .loginPage("/dang-nhap")

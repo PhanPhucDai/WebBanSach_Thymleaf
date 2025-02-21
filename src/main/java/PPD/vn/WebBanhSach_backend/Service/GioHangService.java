@@ -92,7 +92,7 @@ public class GioHangService {
     @Transactional
     public int themSanPhamGioHang(ChiTietGioHangDTO chiTietGioHangdto) {
         try {
-             GioHang gioHang = gioHangRespository.findById(String.valueOf(chiTietGioHangdto.getGioHang()))
+             GioHang gioHang = gioHangRespository.findById(chiTietGioHangdto.getGioHang())
                     .orElseThrow(() -> new RuntimeException("Không thể tìm thấy giỏ hàng"));
              Sach sach = sachRespository.findById(chiTietGioHangdto.getSach())
                     .orElseThrow(() -> new RuntimeException("Không thể tìm thấy sách"));
@@ -119,17 +119,17 @@ public class GioHangService {
     }
     @Transactional
     public int isSelected(ChiTietGioHangDTO chiTietGioHangDTO){
-        Optional<GioHang> gioHang= gioHangRespository.findById(String.valueOf(chiTietGioHangDTO.getGioHang()));
+        System.out.println("ma gio hang"+chiTietGioHangDTO.getGioHang());
+        System.out.println("ma sach"+chiTietGioHangDTO.getSach());
+        Optional<GioHang> gioHang = gioHangRespository.findById(chiTietGioHangDTO.getGioHang());
+
+
         Optional<Sach> sach = sachRespository.findById(chiTietGioHangDTO.getSach());
-
-            if(sach.isPresent() && gioHang.isPresent()){
-
+             if(sach.isPresent() && gioHang.isPresent()){
                 ChiTietGioHang chiTietGioHang=chiTietGioHangRepository
                         .findByGioHangAndSach(gioHang.get(),sach.get())
                         .orElseThrow(()->new RuntimeException("Sản phẩm không tìm thấy ") );
                 if(sach.get().getSoLuong() > 0){
-                    System.out.println("còn sách");
-
                     if(sach.get().getSoLuong() < chiTietGioHangDTO.getSoluong() && chiTietGioHang.getIsSelected() == 0){
                         chiTietGioHang.setSoluong(sach.get().getSoLuong());
                         chiTietGioHang.setIsSelected(1);

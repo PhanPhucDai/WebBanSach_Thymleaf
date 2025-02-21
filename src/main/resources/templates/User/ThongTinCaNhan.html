@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,6 +70,9 @@
     </style>
 </head>
 <body>
+<div class="alert alert-success"   role="alert" th:if="${message}">
+    <span th:text="${message}"></span>
+</div>
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
@@ -78,64 +81,47 @@
                 <div class="profile-icon">
                     <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Crown">
                 </div>
-                <div class="username"> <b>Phan Phúc Đại</b> </div>
-                <div class="badge-silver">Thành viên Bạc</div>
-                <div class="points">F-Point tích lũy 0</div>
+                <div class="username"> <b th:text="${nguoiDung.ten}">Phan Phúc Đại</b> </div>
                 <div class="upgrade">Thêm <b>30.000</b> để nâng hạng Vàng</div>
             </div>
             <h5 class="mb-3">Thông tin tài khoản</h5>
-            <a href="./ThongTinCaNhan.html" class="active">Hồ sơ cá nhân</a>
-            <a href="./DiaChiCaNhan.html">Số địa chỉ</a>
-            <a href="DoiMatKhau.html">Đổi mật khẩu</a>
-            <a href="#">Thông tin xuất hóa đơn GTGT</a>
-            <a href="#">Ưu đãi thành viên</a>
-            <a href="#">Đơn hàng của tôi</a>
-            <a href="#">Ví voucher <span class="badge bg-danger">12</span></a>
-            <a href="#">Tài khoản F-Point / Freeship</a>
-            <a href="#">Thông báo</a>
-            <a href="#">Sản phẩm yêu thích</a>
-            <a href="#">Sách theo bộ</a>
-            <a href="#">Nhận xét của tôi</a>
+            <a th:href="@{/tai-khoan/nguoi-dung}" class="active">Hồ sơ cá nhân</a>
+            <a th:href="@{/tai-khoan/danh-sach-dia-chi}">Số địa chỉ</a>
+            <a th:href="@{/tai-khoan/doi-mat-khau}">Đổi mật khẩu</a>
         </div>
 
         <!-- Profile Section -->
         <div class="col-md-9">
             <div class="profile-container mt-4">
                 <h4 class="mb-3">Hồ sơ cá nhân</h4>
-                <form>
+                <form th:action="@{/tai-khoan/sua-thong-tin-ca-nhan}" method="POST">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Họ*</label>
-                            <input type="text" class="form-control" value="Phan Phúc Đại">
+                            <input type="text" name="hoDem" class="form-control"  th:value="${nguoiDung.hoDem}" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Tên*</label>
-                            <input type="text" class="form-control" value="Phan Phúc Đại">
+                            <input type="text" name="ten" class="form-control"  th:value="${nguoiDung.ten}" readonly>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Số điện thoại</label>
-                        <input type="text" class="form-control" value="0379917903">
+                        <input type="text" name="soDienThoai" class="form-control" th:value="${nguoiDung.soDienThoai}">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" class="form-control" placeholder="Chưa có email">
+                        <input type="email" class="form-control" name="email" placeholder="Chưa có email" th:value="${nguoiDung.email}">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Giới tính*</label>
                         <div>
-                            <input type="radio" id="male" name="gender" checked>
+                            <input disabled type="radio" id="male" name="gender" value="M" th:checked="${nguoiDung.gioiTinh == 'M'}">
                             <label for="male">Nam</label>
-                            <input type="radio" id="female" name="gender">
+
+                            <input disabled type="radio" id="female" name="gender" value="F" th:checked="${nguoiDung.gioiTinh == 'F'}">
                             <label for="female">Nữ</label>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Birthday*</label>
-                        <div class="d-flex">
-                            <input type="text" class="form-control me-2" placeholder="04" style="width: 80px;">
-                            <input type="text" class="form-control me-2" placeholder="04" style="width: 80px;">
-                            <input type="text" class="form-control" placeholder="2004" style="width: 100px;">
+
                         </div>
                     </div>
                     <button type="submit" class="btn-save">Lưu thay đổi</button>
@@ -144,5 +130,14 @@
         </div>
     </div>
 </div>
+<script>
+    setTimeout(function() {
+      let alertBox = document.querySelector(".alert");
+      if (alertBox) {
+        alertBox.style.display = "none"; // Ẩn thông báo sau 3 giây
+      }
+    }, 3000); // 3000ms = 3 giây
+</script>
 </body>
+
 </html>
