@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="UTF-8" />
     <title>Trang Chủ</title>
@@ -78,26 +78,36 @@
                 >
               </li>
               <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="accountDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                >
-                  <i class="fas fa-user fs-3"></i> Tài Khoản
+                <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown">
+                  <i class="fas fa-user fs-3"></i>
+                  <span sec:authentication="name"></span> <!-- Hiển thị tên tài khoản nếu đã đăng nhập -->
                 </a>
                 <ul class="dropdown-menu">
-                  <li>
-                    <a class="dropdown-item" href="#"
-                      ><i class="fas fa-sign-in-alt"></i> Đăng Nhập</a
-                    >
+                  <!-- Nếu chưa đăng nhập -->
+                  <li sec:authorize="isAnonymous()">
+                    <a class="dropdown-item" th:href="@{/dang-nhap}">
+                      <i class="fas fa-sign-in-alt"></i> Đăng Nhập
+                    </a>
                   </li>
-                  <li>
-                    <a class="dropdown-item" href="#"
-                      ><i class="fas fa-user-plus"></i> Đăng Ký</a>
+                  <li sec:authorize="isAnonymous()">
+                    <a class="dropdown-item" th:href="@{/dang-ky}">
+                      <i class="fas fa-user-plus"></i> Đăng Ký
+                    </a>
+                  </li>
+
+                  <!-- Nếu đã đăng nhập -->
+                  <li sec:authorize="isAuthenticated()">
+                    <a class="dropdown-item" th:href="@{/tai-khoan/nguoi-dung}">
+                      <i class="fas fa-user"></i> Thông Tin Cá Nhân
+                    </a>
+                  </li>
+                  <li sec:authorize="isAuthenticated()">
+                    <a class="dropdown-item" th:href="@{/dang-xuat}">
+                      <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+                    </a>
                   </li>
                 </ul>
+
               </li>
               <li class="nav-item">
                 <a class="nav-link"  href="../Admin/Admin_Home.html"

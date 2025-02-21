@@ -41,7 +41,7 @@ public class GioHangController {
     private HttpServletRequest httpRequest;
 
     @GetMapping("/gio-hang")
-    public String gioHang(Model model){
+    public String gioHang(Model model, @ModelAttribute("message")String mesage){
         //Lấy tên đăng nhập đã lưu vào session
         Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
         String tenDangNhap=authentication.getName();
@@ -49,43 +49,77 @@ public class GioHangController {
         NguoiDung nguoiDung = nguoiDungRespository.findByTenDangNhap(tenDangNhap);
         GioHang maGioHang = gioHangRespository.findIDGioHangByNguoiDung(nguoiDung.getMaNguoiDung());
 
-
         List<ChiTietGioHang> chiTietGioHangList = chiTietGioHangRepository.findByGioHang(maGioHang);
-
         List<ChiTietGioHangDTO> chiTietGioHangDTOS= new ArrayList<>();
-
+        double tongTien=0;
         for (ChiTietGioHang ctgh : chiTietGioHangList) {
             // Xử lý từng phần tử ctgh trong danh sách
             ChiTietGioHangDTO chiTietGioHangDTO = new ChiTietGioHangDTO();
             Optional<Sach> sach= sachRespository.findById(ctgh.getSach().getMaSach());
             HinhAnh hinhAnh =  hinhAnhRespository.findBySachAndLaIcons(ctgh.getSach(), true);
+            chiTietGioHangDTO.setMaChiTietGioHang(ctgh.getMaChiTietGioHang());
             chiTietGioHangDTO.setSoluong(ctgh.getSoluong());
             chiTietGioHangDTO.setIsSelected(ctgh.getIsSelected());
             chiTietGioHangDTO.setSachAll(sach.get());
+            chiTietGioHangDTO.setGioHang(ctgh.getGioHang().getMaGioHang());
             chiTietGioHangDTO.setDuLieuAnh(hinhAnh.getDuLieuAnh());
             chiTietGioHangDTOS.add(chiTietGioHangDTO);
+            if(ctgh.getIsSelected() == 1){
+                tongTien+=ctgh.getSach().getGiaBan()*ctgh.getSoluong();
+            }
         }
 
-
-
+        model.addAttribute("tongTien",tongTien);
+        model.addAttribute("message",mesage);
         model.addAttribute("chiTietGioHangs",chiTietGioHangDTOS);
        return "User/GioHang";
     }
 
-    @PutMapping("/them-so-luong")
-    public ResponseEntity<?> themSoLuong(@Validated @RequestBody ChiTietGioHangDTO chiTietGioHang){
-        if(gioHangService.addItemInCart(chiTietGioHang)==1){
-           return ResponseEntity.ok().body("");
-       }
-        return ResponseEntity.badRequest().body("Số lượng không đủ để đáp ứng");
+    @PostMapping("/chon-san-pham-thanh-toan")
+    public String isSelected(@RequestParam("soLuong") int soLuong
+                            ,@RequestParam("maSach") int maSach
+                            ,@RequestParam("maGioHang") int maGioHang
+                            ,RedirectAttributes redirectAttributes){
+         ChiTietGioHangDTO chiTietGioHangDTO = new ChiTietGioHangDTO(maSach, maGioHang, soLuong);
+        int rs= gioHangService.isSelected(chiTietGioHangDTO);
+        if(rs == 0 ){
+            redirectAttributes.addFlashAttribute("message","Mặt hàng này đã hết. Vui lòng xoá ra khỏi cửa hàng");
+            return "redirect:/gio-hang";
+        }else if(rs == 2){
+            redirectAttributes.addFlashAttribute("message","Số lượng sản phẩm không đủ chúng tôi đã giảm số lượng");
+            return "redirect:/gio-hang";
+        }
+        redirectAttributes.addFlashAttribute("message","Sản phẩm đã chọn");
+        return "redirect:/gio-hang";
+
     }
 
-    @PutMapping("/xoa-so-luong")
-    public ResponseEntity<?> xoaSoLuong(@Validated @RequestBody ChiTietGioHangDTO chiTietGioHang){
-        if(gioHangService.removeItemInCart(chiTietGioHang)==1){
-            return ResponseEntity.ok().body("");
+    @PostMapping("/them-so-luong")
+    public String themSoLuong(@RequestParam("soLuong") int soLuong
+                                        ,@RequestParam("maSach") int maSach
+                                        ,@RequestParam("maGioHang") int maGioHang
+                                        ,@RequestParam("maChiTietGioHang") int maChiTietGioHang
+                                        ,RedirectAttributes redirectAttributes){
+        ChiTietGioHangDTO chiTietGioHangDTO =  new ChiTietGioHangDTO(maChiTietGioHang,maSach,maGioHang,soLuong);
+        if(gioHangService.addItemInCart(chiTietGioHangDTO)==1){
+            return "redirect:/gio-hang";
+       }
+        redirectAttributes.addFlashAttribute("message","Số lượng sản phẩm không đủ");
+        return "redirect:/gio-hang";
+    }
+
+    @PostMapping("/xoa-so-luong")
+    public String xoaSoLuong(@RequestParam("soLuong") int soLuong
+            ,@RequestParam("maSach") int maSach
+            ,@RequestParam("maGioHang") int maGioHang
+            ,@RequestParam("maChiTietGioHang") int maChiTietGioHang
+            ,RedirectAttributes redirectAttributes){
+        ChiTietGioHangDTO chiTietGioHangDTO =  new ChiTietGioHangDTO(maChiTietGioHang,maSach,maGioHang,soLuong);
+        if(gioHangService.removeItemInCart(chiTietGioHangDTO)==1){
+            return "redirect:/gio-hang";
         }
-        return ResponseEntity.badRequest().body("Số lượng đã đạt giới hạn");
+         redirectAttributes.addFlashAttribute("message","Số lượng đã đạt giới hạn");
+        return "redirect:/gio-hang";
     }
 
     @DeleteMapping("/xoa-so-luong")
@@ -97,18 +131,18 @@ public class GioHangController {
         return ResponseEntity.badRequest().body("Số lượng đã đạt giới hạn");
     }
 
-    @DeleteMapping("/xoa-san-pham-gio-hang")
-    public ResponseEntity<?> xoaSanPhamGioHang(@Validated @RequestBody ChiTietGioHangDTO chiTietGioHangDTO){
-        System.out.println("Chi tiết giỏ hàng nhận được: " + chiTietGioHangDTO);
-        Optional<ChiTietGioHang> chiTietGioHang = chiTietGioHangRepository.findById(chiTietGioHangDTO.getMaChiTietGioHang());
+    @GetMapping("/xoa-san-pham-gio-hang/{maChiTietGioHang}")
+    public String xoaSanPhamGioHang(@PathVariable("maChiTietGioHang") int maChiTietGioHang,RedirectAttributes redirectAttributes){
+        System.out.println("Chi tiết giỏ hàng nhận được: " + maChiTietGioHang);
+        Optional<ChiTietGioHang> chiTietGioHang = chiTietGioHangRepository.findById(maChiTietGioHang);
         if(chiTietGioHang.isPresent()){
             if( gioHangService.xoaSanPhamGioHang(chiTietGioHang.get())==1){
-                System.out.println("Đã xóa thành công");
-                return ResponseEntity.ok().body("Đã xóa thành công");
+                redirectAttributes.addFlashAttribute("message","Đã xóa thành công");
+                return "redirect:/gio-hang";
             }
         }
-        System.out.println("Không thể xóa sản phẩm này");
-         return ResponseEntity.badRequest().body("Không thể xóa sản phẩm này");
+        redirectAttributes.addFlashAttribute("message","Không thể xóa sản phẩm này");
+        return "redirect:/gio-hang";
     }
 
     @GetMapping("/them-san-pham-gio-hang/{maSach}")
@@ -164,21 +198,7 @@ public class GioHangController {
         return ResponseEntity.badRequest().body("Không thể thêm sản phẩm này");
     }
 
-    @PostMapping("/chon-san-pham-thanh-toan")
-    public ResponseEntity<?> isSelected(@Validated @RequestBody ChiTietGioHangDTO chiTietGioHangDTO){
-        System.out.println("Có vào");
-        int rs= gioHangService.isSelected(chiTietGioHangDTO);
-        if(rs == 0 ){
-            System.out.println("Mặt hàng này đã hết. Vui lòng xoá ra khỏi cửa hàng");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mặt hàng này đã hết. Vui lòng xoá ra khỏi cửa hàng");
-        }else if(rs == 2){
-            System.out.println("Số lượng sản phẩm không đủ chúng tôi đã giảm số lượng");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Số lượng sản phẩm không đủ chúng tôi đã giảm số lượng");
-        }
-            System.out.println("Sản phẩm đax được chọn");
-            return ResponseEntity.ok("Sản phẩm đã được chọn");
 
-    }
 
 //    @GetMapping("/Chi-tiet-gio-hang/isSelected")
 //    public ResponseEntity<?> getItemIsSelected(@Validated @RequestParam("maNguoiDung")  int maNguoiDung){

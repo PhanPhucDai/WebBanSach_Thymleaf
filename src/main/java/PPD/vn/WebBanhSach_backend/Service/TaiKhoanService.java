@@ -9,6 +9,8 @@ import PPD.vn.WebBanhSach_backend.Rest.NguoiDungRespository;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,31 @@ public class TaiKhoanService {
     @Autowired
     private GioHangRespository gioHangRespository;
 
+    public int doiMatKhau(String matKhauCu,String matKhauMoi, String matKhauNhapLai){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+        NguoiDung nguoiDung= nguoiDungRespository.findByTenDangNhap(name);
+
+         if(!matKhauMoi.equals(matKhauNhapLai)){
+             System.out.println("matKhau nhap lai khong dung");
+
+             return 0;
+         }
+         if(!nguoiDung.getMatKhau().equals("{noop}"+matKhauCu)){
+             System.out.println("mật khẩu cũ không đúng ");
+
+             return -1;
+         }
+         nguoiDung.setMatKhau("{noop}"+matKhauMoi);
+        try {
+            nguoiDungRespository.save(nguoiDung);
+            System.out.println("thành công ");
+
+        } catch (Exception e) {
+            return 0;
+        }
+        return  1;
+    }
 
     public int dangKiNguoiDung(NguoiDung nguoiDung){
         if(nguoiDungRespository.existsByTenDangNhap(nguoiDung.getTenDangNhap())){

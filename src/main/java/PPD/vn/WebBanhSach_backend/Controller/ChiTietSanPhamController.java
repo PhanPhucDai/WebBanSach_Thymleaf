@@ -21,8 +21,7 @@ public class ChiTietSanPhamController {
         SachDTO sachDTO = sachRespository.findSachWithTheLoaiAndHinhAnh(maSachTranfer);
         model.addAttribute("listSachByTheLoai",sachRespository.findSachWithTheLoai(sachDTO.getMaTheLoai()) );
         model.addAttribute("sach",sachDTO );
-        System.out.print(sachDTO.getTheLoai());
-        return "User/ChiTietSanPham";
+         return "User/ChiTietSanPham";
     }
 
 }

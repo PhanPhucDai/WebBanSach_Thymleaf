@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -97,54 +97,42 @@
           <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Crown">
         </div>
         <div class="username"><b>Phan Phúc Đại</b></div>
-        <div class="badge-silver">Thành viên Bạc</div>
-        <div class="points">F-Point tích lũy 0</div>
         <div class="upgrade">Thêm <b>30.000</b> để nâng hạng Vàng</div>
       </div>
       <h5 class="mb-3">Thông tin tài khoản</h5>
-      <a href="./ThongTinCaNhan.html">Hồ sơ cá nhân</a>
-      <a href="./DiaChiCaNhan.html" class="active">Số địa chỉ</a>
-      <a href="./DoiMatKhau.html">Đổi mật khẩu</a>
-      <a href="#">Thông tin xuất hóa đơn GTGT</a>
-      <a href="#">Ưu đãi thành viên</a>
-      <a href="#">Đơn hàng của tôi</a>
-      <a href="#">Ví voucher <span class="badge bg-danger">12</span></a>
-      <a href="#">Tài khoản F-Point / Freeship</a>
-      <a href="#">Thông báo</a>
-      <a href="#">Sản phẩm yêu thích</a>
-      <a href="#">Nhận xét của tôi</a>
+      <a th:href="@{/tai-khoan/nguoi-dung}" class="active">Hồ sơ cá nhân</a>
+      <a th:href="@{/tai-khoan/danh-sach-dia-chi}">Số địa chỉ</a>
+      <a th:href="@{/tai-khoan/doi-mat-khau}">Đổi mật khẩu</a>
     </div>
 
     <!-- Address Book Section -->
     <div class="col-md-9">
       <div class="profile-container mt-4">
-        <div class="alert">
-          Bạn vui lòng cập nhật thông tin tài khoản: <a href="#" style="color: red;">Cập nhật thông tin ngay</a>
-        </div>
+
         <h4 class="mb-3">Sổ địa chỉ</h4>
 
         <!-- Address List -->
-        <div class="mb-3">
-          <strong>Phan Phúc Đại</strong> | <span>0987654321</span>
-          <span class="badge-label">Địa chỉ thanh toán mặc định</span>
-          <p>Phường An Biên, Quận Lê Chân, Hải Phòng, VN</p>
-          <a href="#" class="btn-edit">Sửa</a>
+        <div class="mb-3" th:if="${!diaChiGiaoHangs.isEmpty}">
+          <div th:each="diaChiGiaoHang : ${diaChiGiaoHangs}">
+            <strong >Phan Phúc Đại</strong> | <span>0987654321</span>
+            <span class="badge-label">Địa chỉ thanh toán mặc định</span>
+            <div>
+              <span th:text="${diaChiGiaoHang.tenXa}"></span>,
+              <span th:text="${diaChiGiaoHang.tenHuyen}"></span>,
+              <span th:text="${diaChiGiaoHang.tenTinh}"></span>
+            </div>
+
+            <a href="#" class="btn-edit">Sửa</a>
+          </div>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3"th:if="${diaChiGiaoHangs.isEmpty}">
           <span class="badge-label">Địa chỉ giao hàng mặc định</span>
           <p>Bạn chưa có địa chỉ giao hàng mặc định.</p>
         </div>
-
-        <div class="mb-3">
-          <strong>Phan Phúc Đại</strong> | <span>0379917903</span>
-          <span class="badge-label">Địa chỉ khác</span>
-          <p>Phường An Lợi Đông, Quận 2, Hồ Chí Minh, VN</p>
-          <a href="#" class="btn-edit">Sửa</a>
-          <a href="#" class="btn-delete">🗑️</a>
+        <div class="mb-4">
+          <a href="#" class="btn-add" >+ Thêm địa chỉ mới</a>
         </div>
-
-        <a href="#" class="btn-add">+ Thêm địa chỉ mới</a>
       </div>
     </div>
   </div>

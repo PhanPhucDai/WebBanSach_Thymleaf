@@ -9,7 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.Optional;
 
 @RepositoryRestResource(path = "gio-hang")
- public interface GioHangRespository extends JpaRepository<GioHang, String> {
+ public interface GioHangRespository extends JpaRepository<GioHang, Integer> {
 
   @Query("SELECT g FROM GioHang g JOIN g.nguoiDung n WHERE n.maNguoiDung = :maNguoiDung")
   GioHang findIDGioHangByNguoiDung(@Param("maNguoiDung")int maNguoiDung);
