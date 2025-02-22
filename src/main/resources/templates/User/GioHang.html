@@ -1,303 +1,185 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Giỏ hàng</title>
-<<<<<<< HEAD
+
     <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     />
-  </head>
-  <body>
-    <div class="container">
-      <div th:if="${chiTietGioHangs.isEmpty()}">
-=======
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
 </head>
 <body>
-<div class="alert alert-success"   role="alert" th:if="${message}">
-    <span th:text="${message}"></span>
-</div>
+
 <div class="container">
+    <nav class="navbar navbar-expand-lg bg-primary-subtle mb-3 rounded-2" style="background: linear-gradient(135deg, #ff9a9e, #fad0c4);">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/Home.html}">
+                <img
+                        th:src="@{/logo.jpg}"
+                        style="height: 60px; border-radius: 4px"
+                        alt="logo"
+                />
+            </a>
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <div th:if="${chiTietGioHangs.isEmpty()}">
->>>>>>> 33038e09cefd83ae7b8e6224eacbaaeb7d2ecf63
-        <h4>Giỏ hàng</h4>
-        <div
-          class="h-50 d-flex flex-column justify-content-center align-items-center"
-          style="
-            background-color: var(--bs-secondary-bg);
-            width: 1092px;
-            border-radius: 4px;
-            height: 340px;
-          "
-        >
-          <div class="mt-5">
-            <img
-              title="null"
-              src="https://cdn0.fahasa.com/skin//frontend/ma_vanese/fahasa/images/checkout_cart/ico_emptycart.svg"
-              class="center"
-              alt="Empty Cart"
-            />
-          </div>
-          <p style="margin-top: 20px">
-            Bạn chưa có sản phẩm nào trong giỏ hàng
-          </p>
-          <div>
-            <a href="/" class="btn btn-danger mb-5">Tới trang chủ</a>
-          </div>
-        </div>
-<<<<<<< HEAD
-      </div>
-      <div class="row">
-        <h4 class="">Giỏ hàng</h4>
-        <div class="col-8 row g-0 h-50 d-flex flex-column">
-          <div class="border-bottom row">
-            <div class="col-6 d-flex align-items-center">
-              <input
-                type="checkbox"
-                id="select-all"
-                class="form-check-input me-2 mb-1"
-                style="padding: 10px"
-              />
-              <label for="select-all" class="m-0"
-                ><h6 class="mb-0">Chọn tất cả</h6></label
-              >
-            </div>
-            <div class="col-3 text-center"><h6 class="mb-0">Số lượng</h6></div>
-            <div class="col-3 text-center"><h6 class="mb-0">Tổng tiền</h6></div>
-          </div>
-          <!-- Chi tiết sản phẩm sẽ được thêm vào đây -->
-          <div
-            id="cart-items"
-            class="container-fluid my-4"
-            style="width: 1300px"
-            th:each="chiTietGioHang :${chiTietGioHangs}"
-          >
-            <div class="row">
-              <div
-                class="col-12 p-3"
-                style="background-color: gray; border-radius: 8px"
-              >
-                <div class="row align-items-center py-2 border-bottom">
-                  <div class="col-3 d-flex align-items-center">
-                    <input
-                      class="form-check-input me-2"
-                      type="checkbox"
-                      style="padding: 10px"
-                    />
-                    <img
-                      title=""
-                      th:src="${chiTietGioHang.duLieuAnh}"
-                      style="height: 120px; width: 120px; object-fit: cover"
-                    />
-                  </div>
-                  <div class="col-3 d-flex flex-column justify-content-between">
-                    <a href="#" class="text-decoration-none text-black"
-                      ><h5
-                        class="mb-2"
-                        th:text="${chiTietGioHang.sachAll.tenSach}"
-                      ></h5
-                    ></a>
-                    <div class="row mt-5">
-                      <div class="col-3">
-                        <del th:text="${chiTietGioHang.sachAll.giaNiemYet}"
-                          >Giá niêm yết</del
+            <div
+                    class="collapse navbar-collapse justify-content-center"
+                    id="navbarNav"
+            >
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/sach/sach-all}"
+                        ><i class="fas fa-home fs-3"></i> Trang Chủ</a
                         >
-                      </div>
-                      <div
-                        class="col-6"
-                        th:text="${chiTietGioHang.sachAll.giaBan}"
-                      >
-                        Giá bán
-                      </div>
-=======
-    </div>
-    <div class="row" th:if="${!chiTietGioHangs.isEmpty()}">
-        <h4 class="">Giỏ hàng</h4>
-        <div class="col-8 row g-0 h-50 d-flex flex-column">
-            <div class="border-bottom row">
-                <div class="col-6 d-flex align-items-center">
-                </div>
-                <div class="col-3 text-center"><h6 class="mb-0">Số lượng</h6></div>
-                <div class="col-3 text-center"><h6 class="mb-0">Tổng tiền</h6></div>
-            </div>
-             <!-- Chi tiết sản phẩm sẽ được thêm vào đây -->
-                <div  id="cart-items" class="container-fluid my-4" style="width:1300px"  th:each="chiTietGioHang :${chiTietGioHangs}">
-                    <div class="row" th:value="${chiTietGioHang.gioHang}" name="maGioHang" >
-                        <div class="col-12 p-3" style="background-color: gray; border-radius: 8px;">
-                            <div class="row align-items-center py-2 border-bottom">
-                                <div class="col-3 d-flex align-items-center">
-                                    <form th:action="@{/chon-san-pham-thanh-toan}" method="post">
-                                        <input type="hidden" name="maSach" th:value="${chiTietGioHang.sachAll.maSach}">
-                                        <input type="hidden" name="maGioHang" th:value="${chiTietGioHang.gioHang}">
-                                        <input type="hidden" name="soLuong" th:value="${chiTietGioHang.soluong}">
-                                        <input class="form-check-input me-2" type="checkbox" name="isSelected"
-                                               th:checked="${chiTietGioHang.isSelected == 1}"
-                                               th:data
-                                               value="1"
-                                               onchange="this.form.submit()">
-                                    </form>
-                                    <img title=""   th:src="${chiTietGioHang.duLieuAnh}" style="height: 120px; width: 120px; object-fit: cover;">
-                                </div>
-                                <div class="col-3 d-flex flex-column justify-content-between">
-                                    <a href="#" class="text-decoration-none text-black"><h5 class="mb-2" th:value="${chiTietGioHang.sachAll.maSach}" name="maSach" th:text="${chiTietGioHang.sachAll.tenSach}"> </h5></a>
-                                    <div class="row mt-5">
-                                        <div class="col-3"><del  th:text="${chiTietGioHang.sachAll.giaNiemYet}">Giá niêm yết</del></div>
-                                        <div class="col-6"  th:text="${chiTietGioHang.sachAll.giaBan}">Giá bán</div>
-                                    </div>
-                                </div>
-                                <div class="col-3 text-center">
-                                    <div class="input-group">
-                                        <form th:action="@{/xoa-so-luong}" method="post">
-                                            <input type="hidden" name="maSach" th:value="${chiTietGioHang.sachAll.maSach}">
-                                            <input type="hidden" name="maGioHang" th:value="${chiTietGioHang.gioHang}">
-                                            <input type="hidden" name="soLuong" th:value="${chiTietGioHang.soluong}">
-                                            <input type="hidden" name="maChiTietGioHang" th:value="${chiTietGioHang.maChiTietGioHang}">
-                                            <button type="submit">+</button>
-                                        </form>
-                                        <input type="text" class="form-control" th:value="${chiTietGioHang.soluong}" min="1" name="soLuong" disabled>
-                                        <form th:action="@{/them-so-luong}" method="post">
-                                            <input type="hidden" name="maSach" th:value="${chiTietGioHang.sachAll.maSach}">
-                                            <input type="hidden" name="maGioHang" th:value="${chiTietGioHang.gioHang}">
-                                            <input type="hidden" name="soLuong" th:value="${chiTietGioHang.soluong}">
-                                            <input type="hidden" name="maChiTietGioHang" th:value="${chiTietGioHang.maChiTietGioHang}">
-                                            <button type="submit">+</button>
-                                        </form>
-                                    </div>
-                                </div>
-                                 <div class="col-2 text-center">
-                                    <span th:text="${chiTietGioHang.soluong * chiTietGioHang.sachAll.giaBan}"></span>
-                                </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                id="theLoaiDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                        >
+                            <i class="fas fa-th-list fs-3"></i> Thể Loại
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li th:each="theLoai : ${listTheLoai}">
+                                <a class="dropdown-item" href="#" th:text="${theLoai.tenTheLoai}"></a>
+                            </li>
+                        </ul>
 
-                                <div class="col-1 text-center">
-                                    <a th:href="@{/xoa-san-pham-gio-hang/{maChiTietGioHang}(maChiTietGioHang=${chiTietGioHang.maChiTietGioHang})}"
-                                       class="btn btn-outline-danger p-0 border-0" type="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
->>>>>>> 33038e09cefd83ae7b8e6224eacbaaeb7d2ecf63
-                    </div>
-                  </div>
-                  <div class="col-3 text-center">
-                    <div class="input-group">
-                      <button class="btn btn-outline-secondary" type="button">
-                        -
-                      </button>
-                      <input
-                        type="number"
-                        class="form-control"
-                        th:value="${chiTietGioHang.soluong}"
-                        min="1"
-                      />
-                      <button class="btn btn-outline-secondary" type="button">
-                        +
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col-2 text-center">
-                    <span>Tổng tiền</span>
-                  </div>
-                  <div class="col-1 text-center">
-                    <button
-                      title="deleteItem"
-                      class="btn btn-outline-danger p-0 border-0"
-                      type="button"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        fill="currentColor"
-                        class="bi bi-trash"
-                        viewBox="0 0 16 16"
-                      >
-                        <path
-                          d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
-                        />
-                        <path
-                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-4 h-25">
-          <div
-            class="row h-50"
-            style="background-color: var(--bs-secondary-bg); border-radius: 8px"
-          >
-            <div class="col-6 d-flex p-2 align-items-center">
-              <h5>Khuyến mãi</h5>
-            </div>
-<<<<<<< HEAD
-          </div>
-          <div
-            class="row mt-1"
-            style="background-color: var(--bs-secondary-bg); border-radius: 8px"
-          >
-            <h5 class="text-center m-3">Tổng cộng</h5>
-            <hr />
-            <div class="row justify-content-center">
-              <div class="col-6">Tổng Số Tiền (gồm VAT)</div>
-              <div class="col-6 text-center text-danger">
-                <h5 id="tong-tien">0đ</h5>
-              </div>
-              <div style="display: flex; justify-content: center">
-                <button
-                  class="btn btn-danger mt-3 mb-2"
-                  style="
-                    width: 300px;
-                    height: 50px;
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                  "
-                >
-                  <b style="font-size: 18px">Thanh toán</b>
-                </button>
-              </div>
-=======
-            <div class="row mt-1" style="background-color: var(--bs-secondary-bg); border-radius: 8px;">
-                <h5 class="text-center m-3">Tổng cộng</h5>
-                <hr>
-                <div class="row justify-content-center">
-                    <div class="col-6">Tổng Số Tiền (gồm VAT)</div>
-                    <div class="col-6 text-center text-danger"><h5 id="tong-tien" th:text="${tongTien}"></h5>VND</div>
-                    <div style="display: flex; justify-content: center;">
-                        <button class="btn btn-danger mt-3 mb-2" style="width: 300px; height: 50px; opacity: 0.5; cursor: not-allowed;">
-                            <b style="font-size: 18px;">Thanh toán</b>
+                    </li>
+                    <form class="justify-content-center d-flex ps-5 pe-5" role="search">
+                        <input class="form-control me-2 w-100" type="search" placeholder="Tìm kiếm sách" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">
+                            <i class="fas fa-search"></i>
                         </button>
-                    </div>
-                </div>
->>>>>>> 33038e09cefd83ae7b8e6224eacbaaeb7d2ecf63
+                    </form>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/lien-he}"
+                        ><i class="fas fa-phone-alt fs-3"></i> Liên Hệ</a
+                        >
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user fs-3"></i>
+                            <span sec:authentication="name"></span> <!-- Hiển thị tên tài khoản nếu đã đăng nhập -->
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- Nếu chưa đăng nhập -->
+                            <li sec:authorize="isAnonymous()">
+                                <a class="dropdown-item" th:href="@{/dang-nhap}">
+                                    <i class="fas fa-sign-in-alt"></i> Đăng Nhập
+                                </a>
+                            </li>
+                            <li sec:authorize="isAnonymous()">
+                                <a class="dropdown-item" th:href="@{/dang-ky}">
+                                    <i class="fas fa-user-plus"></i> Đăng Ký
+                                </a>
+                            </li>
+
+                            <!-- Nếu đã đăng nhập -->
+                            <li sec:authorize="isAuthenticated()">
+                                <a class="dropdown-item" th:href="@{/tai-khoan/nguoi-dung}">
+                                    <i class="fas fa-user"></i> Thông Tin Cá Nhân
+                                </a>
+                            </li>
+                            <li sec:authorize="isAuthenticated()">
+                                <a class="dropdown-item" th:href="@{/dang-xuat}">
+                                    <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  href="../Admin/Admin_Home.html"
+                        ><i class="fas fa-phone-alt fs-3"></i> Admin</a
+                        >
+                    </li>
+                </ul>
             </div>
-          </div>
+
+            <div class="d-flex">
+                <a class="nav-link text-dark" th:href="@{/gio-hang}">
+                    <i class="fas fa-shopping-cart fa-lg fs-3"></i> Giỏ Hàng
+                </a>
+            </div>
         </div>
-      </div>
+    </nav>
+    <h4 class="mb-4">Giỏ hàng của bạn</h4>
+
+    <div th:if="${chiTietGioHangs.isEmpty()}" class="text-center p-5 bg-light rounded">
+        <img src="https://cdn0.fahasa.com/skin//frontend/ma_vanese/fahasa/images/checkout_cart/ico_emptycart.svg" alt="Empty Cart" class="mb-3" />
+        <p>Bạn chưa có sản phẩm nào trong giỏ hàng</p>
+        <a href="/" class="btn btn-danger">Tiếp tục mua sắm</a>
     </div>
-<<<<<<< HEAD
-  </body>
-=======
+
+    <div th:if="${!chiTietGioHangs.isEmpty()}">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-primary">
+                <tr>
+                    <th><input type="checkbox" id="select-all" class="form-check-input" /></th>
+                    <th>Sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                    <th>Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="chiTietGioHang : ${chiTietGioHangs}">
+                    <td><input type="checkbox" class="form-check-input" /></td>
+                    <td class="d-flex align-items-center">
+                        <img th:src="${chiTietGioHang.duLieuAnh}" class="me-2" style="width: 80px; height: 80px; object-fit: cover;" />
+                        <span th:text="${chiTietGioHang.sachAll.tenSach}"></span>
+                    </td>
+                    <td><del th:text="${chiTietGioHang.sachAll.giaNiemYet}"></del> <br /> <span class="text-danger" th:text="${chiTietGioHang.sachAll.giaBan}"></span></td>
+                    <td>
+                        <div class="input-group w-50 mx-auto">
+                            <button class="btn btn-outline-secondary">-</button>
+                            <input type="number" class="form-control text-center" th:value="${chiTietGioHang.soluong}" min="1" />
+                            <button class="btn btn-outline-secondary">+</button>
+                        </div>
+                    </td>
+                    <td class="text-danger fw-bold" th:text="${chiTietGioHang.soluong * chiTietGioHang.sachAll.giaBan}"></td>
+                    <td>
+                        <a th:href="@{/xoa-san-pham-gio-hang/{maChiTietGioHang}(maChiTietGioHang=${chiTietGioHang.maChiTietGioHang})}" class="btn btn-outline-danger">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card p-4 mt-4 shadow-sm">
+            <h5 class="text-center">Tổng thanh toán</h5>
+            <hr />
+            <div class="d-flex justify-content-between">
+                <span class="fw-bold">Tổng tiền (gồm VAT):</span>
+                <span class="text-danger fw-bold fs-5" th:text="${tongTien}"></span>
+            </div>
+            <button class="btn btn-success w-100 mt-3">Thanh toán ngay</button>
+        </div>
+    </div>
 </div>
+
 </body>
-<script>
-    setTimeout(function() {
-      let alertBox = document.querySelector(".alert");
-      if (alertBox) {
-        alertBox.style.display = "none"; // Ẩn thông báo sau 3 giây
-      }
-    }, 3000); // 3000ms = 3 giây
-</script>
->>>>>>> 33038e09cefd83ae7b8e6224eacbaaeb7d2ecf63
 </html>
+
+
