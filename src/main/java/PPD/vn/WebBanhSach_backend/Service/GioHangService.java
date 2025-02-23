@@ -67,7 +67,7 @@ public class GioHangService {
             Sach sach = sachOptional.get();
             int soLuongchiTietGioHang = chiTietGioHang.getSoluong();
             int soLuong = sach.getSoLuong();
-            if(chiTietGioHang.getSoluong() > 0){
+            if(chiTietGioHang.getSoluong() > 1){
                 newChiTietGioHang.setSoluong(soLuongchiTietGioHang-1);
                 chiTietGioHangRepository.save(newChiTietGioHang);
                 rs=1;

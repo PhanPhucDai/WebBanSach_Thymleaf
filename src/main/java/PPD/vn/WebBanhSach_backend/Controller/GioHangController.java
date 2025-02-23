@@ -89,7 +89,6 @@ public class GioHangController {
             redirectAttributes.addFlashAttribute("message","Số lượng sản phẩm không đủ chúng tôi đã giảm số lượng");
             return "redirect:/gio-hang";
         }
-        redirectAttributes.addFlashAttribute("message","Sản phẩm đã chọn");
         return "redirect:/gio-hang";
 
     }

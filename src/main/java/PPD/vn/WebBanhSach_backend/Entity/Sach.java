@@ -47,7 +47,8 @@ public class Sach {
                     CascadeType.DETACH,
                     CascadeType.PERSIST,
                     CascadeType.MERGE,
-                    CascadeType.REFRESH
+                    CascadeType.REFRESH,
+                    CascadeType.REMOVE
     })
     @JoinTable(
             name = "sach_theloai",
@@ -99,4 +100,15 @@ public class Sach {
             ,cascade = {CascadeType.MERGE    })
     private List<ChiTietGioHang> chiTietGioHangs;
 
+    public Sach(String tenSach, String tenTacGia, String ISBN, String moTa, String moTaChiTiet, double giaNiemYet, double giaBan, int soLuong, Double trungBinhXepHang) {
+        this.tenSach = tenSach;
+        this.tenTacGia = tenTacGia;
+        this.ISBN = ISBN;
+        this.moTa = moTa;
+        this.moTaChiTiet = moTaChiTiet;
+        this.giaNiemYet = giaNiemYet;
+        this.giaBan = giaBan;
+        this.soLuong = soLuong;
+        this.trungBinhXepHang = trungBinhXepHang;
+    }
 }

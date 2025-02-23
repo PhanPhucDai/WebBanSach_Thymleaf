@@ -39,6 +39,31 @@ public interface SachRespository extends JpaRepository<Sach, Integer> {
             "JOIN s.danhSachHinhAnh h " +
             "JOIN s.danhSachTheLoai tl " +
             "WHERE h.laIcons = true AND tl.maTheLoai = :maTheLoai")
-    List<SachDTO> findSachWithTheLoai(@Param("maTheLoai") int maTheLoai);
+    Page<SachDTO> findSachWithTheLoai(@Param("maTheLoai") int maTheLoai,Pageable pageable);
 
+    @Query("SELECT DISTINCT new PPD.vn.WebBanhSach_backend.DTO.SachDTO( " +
+            "s.maSach, s.tenSach, s.giaBan, s.giaNiemYet, h.duLieuAnh, s.tenTacGia, " +
+            "tl.maTheLoai, tl.tenTheLoai) " +
+            "FROM Sach s " +
+            "JOIN s.danhSachHinhAnh h " +
+            "JOIN s.danhSachTheLoai tl " +
+            "WHERE h.laIcons = true AND tl.maTheLoai = :maTheLoai")
+    List<SachDTO> findSachWithTheLoaiNoPage(@Param("maTheLoai") int maTheLoai);
+
+    //lấy theo nội dung kìm kiếm
+    @Query(value = "SELECT new PPD.vn.WebBanhSach_backend.DTO.SachDTO(s.maSach, s.tenSach, s.giaBan, s.giaNiemYet, h.duLieuAnh, s.tenTacGia) " +
+            "FROM Sach s JOIN s.danhSachHinhAnh h WHERE h.laIcons = true and s.tenSach Like %:content%")
+    Page<SachDTO> findSachByContent(@Param("content") String content, Pageable pageable);
+
+    @Query("SELECT new PPD.vn.WebBanhSach_backend.DTO.SachDTO( " +
+            "s.maSach, s.tenSach, s.giaBan, s.giaNiemYet,ha.duLieuAnh, s.tenTacGia, " +
+            " tl.maTheLoai, tl.tenTheLoai, s.ISBN, s.moTa, s.moTaChiTiet, s.soLuong, s.trungBinhXepHang ) " +
+            "FROM Sach s " +
+            "JOIN s.danhSachTheLoai tl " +
+            "JOIN s.danhSachHinhAnh ha " +
+            "WHERE s.maSach = :maSach AND ha.laIcons = true")
+    SachDTO findSachFullWithTheLoaiAndHinhAnh(@Param("maSach") int maSach);
+
+    @Query("SELECT s from Sach s where  s.tenSach Like %:tenSach%  ")
+    List<Sach> findByTenSach(String tenSach);
 }
