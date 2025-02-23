@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html
+  lang="en"
+  xmlns:th="http://www.w3.org/1999/xhtml"
+  xmlns:sec="http://www.w3.org/1999/xhtml"
+>
   <head>
     <meta charset="UTF-8" />
     <title>Trang Chủ</title>
@@ -25,17 +29,29 @@
       <div class="text-center mb-5">
         <img
           th:src="@{/banner.jpg}"
-          style="width: 100%; "
+          style="width: 100%"
           class="rounded-2 shadow"
           alt="banner"
         />
       </div>
-    <div class="mb-5 rounded-2" style="height: auto; padding: 2rem; background: linear-gradient(135deg, #ff9a9e, #fad0c4);">
+      <div
+        class="mb-5 rounded-2"
+        style="
+          height: auto;
+          padding: 2rem;
+          background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        "
+      >
         <h1>Nội dung</h1>
         <div class="row row-cols-1 row-cols-md-4 g-4">
           <div class="col" th:each="sach: ${sachList}">
             <div class="card">
-              <a th:href="@{/chi-tiet-san-pham/{maSach}(maSach=${sach.maSach})}"><img th:src="${sach.duLieuAnh}" class="card-img-top" alt="Ảnh sach"></a>
+              <a th:href="@{/chi-tiet-san-pham/{maSach}(maSach=${sach.maSach})}"
+                ><img
+                  th:src="${sach.duLieuAnh}"
+                  class="card-img-top"
+                  alt="Ảnh sach"
+              /></a>
               <div>
                 <h5 class="ms-2" th:text="${sach.tenSach}"></h5>
               </div>
@@ -45,26 +61,47 @@
               </div>
               <div class="card-body">
                 <div class="d-flex justify-content-end">
-                  <a href="#" class="text-danger mx-2 fs-5"><i class="fas fa-heart fa-2x"></i></a>
-                  <a th:href="@{/them-san-pham-gio-hang/{maSach}(maSach=${sach.maSach})}" class="text-dark mx-2"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                  <a href="#" class="text-danger mx-2 fs-5"
+                    ><i class="fas fa-heart fa-2x"></i
+                  ></a>
+                  <a
+                    th:href="@{/them-san-pham-gio-hang/{maSach}(maSach=${sach.maSach})}"
+                    class="text-dark mx-2"
+                    ><i class="fas fa-shopping-cart fa-2x"></i
+                  ></a>
                   <a href="#" class="btn btn-primary">Mua ngay</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      <div  class="pagination d-flex justify-content-center mt-4">
-        <a th:if="${currentPage > 0}" th:href="@{/sach/sach-all(page=${currentPage - 1})}"  class="btn btn-secondary mx-2"><-</a>
-        <span class="mx-2 btn" th:text="${currentPage}"></span>
-        <a th:if="${sachList.hasNext()}" th:href="@{/sach/sach-all(page=${currentPage + 1})}"  class="btn btn-secondary mx-2">-></a>
-      </div>
+        <div class="pagination d-flex justify-content-center mt-4">
+          <a
+            th:if="${currentPage > 0}"
+            th:href="@{/sach/sach-all(page=${currentPage - 1})}"
+            class="btn btn-secondary mx-2"
+            ><-</a
+          >
+          <span class="mx-2 btn" th:text="${currentPage}"></span>
+          <a
+            th:if="${sachList.hasNext()}"
+            th:href="@{/sach/sach-all(page=${currentPage + 1})}"
+            class="btn btn-secondary mx-2"
+            >-></a
+          >
+        </div>
       </div>
     </div>
     <!-- Footer -->
     <div>
-        <div class="text-center mb-3">
-          <img th:src="@{ftbanner.jpg}" alt="" style="width: -webkit-fill-available; border-radius: 4px;"/>
-        </div>
+      <div class="text-center mb-3">
+        <img
+          th:src="@{ftbanner.jpg}"
+          alt=""
+          style="width: -webkit-fill-available; border-radius: 4px"
+        />
       </div>
+      <div th:replace="~{User/footer :: footer}"></div>
+    </div>
   </body>
 </html>
