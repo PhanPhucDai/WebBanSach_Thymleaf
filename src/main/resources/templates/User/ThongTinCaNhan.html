@@ -68,12 +68,18 @@
             background-color: darkred;
         }
     </style>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
 </head>
 <body>
 <div class="alert alert-success"   role="alert" th:if="${message}">
     <span th:text="${message}"></span>
 </div>
 <div class="container-fluid">
+    <div th:replace="~{User/header :: header}"></div>
+
     <div class="row">
         <!-- Sidebar -->
         <div class="col-md-3 sidebar">
@@ -129,6 +135,9 @@
             </div>
         </div>
     </div>
+<!--Footer-->
+    <div th:replace="~{User/footer :: footer}"></div>
+
 </div>
 <script>
     setTimeout(function() {
