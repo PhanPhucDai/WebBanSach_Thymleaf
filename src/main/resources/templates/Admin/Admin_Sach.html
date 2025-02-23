@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:>
   <head>
     <meta charset="UTF-8" />
     <title>Vertical Navbar</title>
@@ -40,7 +40,7 @@
         style="background: linear-gradient(135deg, #048dd1, #c9f4fe)"
       >
         <img
-          src="../../static/logo.jpg"
+         th:src="@{/logo.jpg}"
           width="100"
           height="100"
           class="d-inline-block align-top"
@@ -51,23 +51,10 @@
           <div class="collapse navbar-collapse" style="justify-content: center">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="./Admin_Home.html"
-                  >Trang chủ</a
-                >
+                <a class="nav-link" th:href="@{/sach/admin_sach}">Sách</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./Admin_ThongTinTK.html"
-                  >Thông tin tài khoản</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./Admin_Sach.html">Sách</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./Admin_User.html">Thêm nhân viên</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="../User/Home.html"
+                <a class="nav-link active" th:href="@{/sach/sach-all}"
                   >Trang sách</a
                 >
               </li>
@@ -83,22 +70,15 @@
         style="background-color: rgb(255, 255, 255)"
       >
         <h1 class="text-center pt-3">Sách</h1>
-        <form
-          class="justify-content-center d-flex ps-5 pe-5 mb-4 pt-4"
-          role="search"
-        >
-          <input
-            class="form-control me-2 w-75"
-            type="search"
-            placeholder="Tìm kiếm sách"
-            aria-label="Search"
-          />
+        <form th:action="@{/sach/sach-admin/tim-kiem}" class="justify-content-center d-flex ps-5 pe-5 mb-4 pt-4" role="search" >
+          <input name="timKiem" class="form-control me-2 w-75"  type="search"  placeholder="Tìm kiếm sách" aria-label="Search" />
           <button class="btn btn-outline-secondary" type="submit">
             <i class="fas fa-search">Tìm</i>
           </button>
         </form>
-        <table class="table table-bordered text-center">
-          <thead>
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+          <table class="table table-bordered">
+            <thead>
             <tr>
               <th>Mã sách</th>
               <th>isbn</th>
@@ -109,138 +89,118 @@
               <th>Tên sách</th>
               <th>Tên tác giả</th>
               <th>Trung bình xếp hạng</th>
-              <th>Mô tả chi tiết</th>
-              <th></th>
+               <th></th>
             </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="btn btn-secondary">Chỉnh sửa</td>
+            </thead>
+            <tbody>
+            <tr th:each="sach : ${sachs}">
+              <td th:text="${sach.maSach}"></td>
+              <td th:text="${sach.ISBN}"></td>
+              <td th:text="${sach.giaBan}"></td>
+              <td th:text="${sach.giaNiemYet}"></td>
+              <td th:text="${sach.moTa}"></td>
+              <td th:text="${sach.soLuong}"></td>
+              <td th:text="${sach.tenSach}"></td>
+              <td th:text="${sach.tenTacGia}"></td>
+              <td th:text="${sach.trungBinhXepHang}"></td>
+               <td>
+                <a class="btn btn-secondary" th:href="@{/sach/sach-admin(maSach=${sach.maSach})}">Chỉnh sửa</a>
+              </td>
             </tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div
-        class="container pb-3 rounded-3"
-        style="background-color: rgb(255, 255, 255)"
-      >
+      <div class="container pb-3 rounded-3" style="background-color: rgb(255, 255, 255)" >
+
         <h3 class="text-center mb-4 pt-3">Chỉnh sửa sách</h3>
-        <form class="mb-4 ms-5">
+        <form th:action="@{/sach/them-sach}" method="post" class="mb-4 ms-5" enctype="multipart/form-data">
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="maSach" class="form-label">Mã sách :</label>
-              <input
-                type="text"
-                class="form-control"
-                id="maSach"
-                name="maSach"
-              />
+              <input th:value="${sach.maSach != null ? sach.maSach : ''}" type="text" class="form-control" id="maSach" name="maSach" />
             </div>
             <div class="col-md-6">
-              <label for="isbn" class="form-label">isbn :</label>
-              <input type="text" class="form-control" id="isbn" name="isbn" />
+              <label for="tenSach" class="form-label">Tên sách :</label>
+              <input th:value="${sach.tenSach != null ? sach.tenSach : ''}" type="text" class="form-control" id="tenSach" name="tenSach" />
             </div>
+          </div><div class="row mb-3">
+
+          <div class="col-md-6">
+            <label for="isbn" class="form-label">isbn :</label>
+            <input th:value="${sach.ISBN}?: ''" type="text" class="form-control" id="ISBN" name="ISBN" />
           </div>
+          <div class="col-md-6">
+            <label for="moTa" class="form-label">Mô tả :</label>
+            <textarea th:text="${sach.moTa}?: ''" class="form-control" id="moTa" name="moTa" rows="3" ></textarea>
+          </div>
+
+
+        </div>
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="giaBan" class="form-label">Giá bán :</label>
-              <input
-                type="text"
-                class="form-control"
-                id="giaBan"
-                name="giaBan"
-              />
+              <input th:value="${sach.giaBan}?: ''" type="text" class="form-control" id="giaBan" name="giaBan" />
             </div>
             <div class="col-md-6">
-              <label for="giaNiemYet" class="form-label">Giá niêm yết :</label>
-              <input
-                type="text"
-                class="form-control"
-                id="giaNiemYet"
-                name="giaNiemYet"
-              />
+              <label for="hinhAnhSach" class="form-label"  >Hình ảnh sách</label>
+              <input id="hinhAnhSach" name="duLieuAnh" type="file" class="form-control">
             </div>
+
           </div>
           <div class="row mb-3">
+            <!-- Cột bên trái: Form nhập thông tin -->
             <div class="col-md-6">
-              <label for="moTa" class="form-label">Mô tả :</label>
-              <textarea
-                class="form-control"
-                id="moTa"
-                name="moTa"
-                rows="3"
-              ></textarea>
+              <div class="d-flex flex-column gap-3">
+                <div>
+                  <label for="giaNiemYet" class="form-label">Giá niêm yết :</label>
+                  <input th:value="${sach.giaNiemYet}?: ''" type="text" class="form-control" id="giaNiemYet" name="giaNiemYet" />
+                </div>
+                <div>
+                  <label for="soLuong" class="form-label">Số lượng :</label>
+                  <input th:value="${sach.soLuong}?: ''" type="number" class="form-control" id="soLuong" name="soLuong"/>
+                </div>
+                <div>
+                  <label for="tenTacGia" class="form-label">Tên tác giả :</label>
+                  <input th:value="${sach.tenTacGia}?: ''" type="text" class="form-control" id="tenTacGia" name="tenTacGia"/>
+                </div>
+              </div>
             </div>
-            <div class="col-md-6">
-              <label for="soLuong" class="form-label">Số lượng :</label>
-              <input
-                type="number"
-                class="form-control"
-                id="soLuong"
-                name="soLuong"
-              />
+
+            <!-- Cột bên phải: Ảnh -->
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+              <div class="text-center" th:if="${sach.duLieuAnh}?: ''" name="duLieuAnh">
+                <img style="width:150px; height:200px" th:src="${sach.duLieuAnh}" class="rounded img-fluid" alt="Hình ảnh sách"  >
+              </div>
             </div>
           </div>
+
+
+
+
           <div class="row mb-3">
             <div class="col-md-6">
-              <label for="tenSach" class="form-label">Tên sách :</label>
-              <input
-                type="text"
-                class="form-control"
-                id="tenSach"
-                name="tenSach"
-              />
+              <label for="trungBinhXepHang" class="form-label" >Trung bình xếp hạng :</label >
+              <input th:value="${sach.trungBinhXepHang}?: ''" type="text" class="form-control" id="trungBinhXepHang" name="trungBinhXepHang"/>
             </div>
-            <div class="col-md-6">
-              <label for="tenTacGia" class="form-label">Tên tác giả :</label>
-              <input
-                type="text"
-                class="form-control"
-                id="tenTacGia"
-                name="tenTacGia"
-              />
+
+            <div class="col-md-6 ">
+              <label class="form-label">Thể Loại</label>
+              <select class="form-select" name="maTheLoai" aria-label="Default select example">
+                <option th:each="theLoai : ${theLoais}"
+                        th:value="${theLoai.maTheLoai}"
+                        th:text="${theLoai.tenTheLoai}"
+                        th:selected="${sach != null and sach.maTheLoai != null and sach.maTheLoai == theLoai.maTheLoai}">
+                </option>
+              </select>
             </div>
           </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="trungBinhXepHang" class="form-label"
-                >Trung bình xếp hạng :</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="trungBinhXepHang"
-                name="trungBinhXepHang"
-              />
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary me-3" name="action" value="create">Create</button>
+              <button type="submit" class="btn btn-danger me-3" name="action" value="update">Update</button>
+              <button type="submit" class="btn btn-warning me-3" name="action" value="delete">Delete</button>
+              <button type="submit" class="btn btn-success me-3" name="action" value="reset">Reset</button>
             </div>
-            <div class="col-md-6">
-              <label for="moTaChiTiet" class="form-label"
-                >Mô tả chi tiết :</label
-              >
-              <textarea
-                class="form-control"
-                id="moTaChiTiet"
-                name="moTaChiTiet"
-                rows="3"
-              ></textarea>
-            </div>
-          </div>
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary me-3">Create</button>
-            <button type="submit" class="btn btn-danger me-3">Update</button>
-            <button type="submit" class="btn btn-warning me-3">Delete</button>
-            <button type="submit" class="btn btn-success me-3">Reset</button>
-          </div>
         </form>
       </div>
     </div>

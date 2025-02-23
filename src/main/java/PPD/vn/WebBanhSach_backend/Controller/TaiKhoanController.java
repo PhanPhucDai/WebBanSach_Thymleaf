@@ -62,9 +62,7 @@ public class TaiKhoanController {
             ,@RequestParam("matKhauCu") String matKhauCu
             ,@RequestParam("matKhauMoi") String matKhauMoi
             ,@RequestParam("matKhauNhapLai")  String matKhauNhapLai){
-        System.out.println("matKhauCu"+matKhauCu);
-        System.out.println("matKhaumoi"+matKhauMoi);
-        System.out.println("matKhauNhapLai"+matKhauNhapLai);
+
 
         int rs = taiKhoanService.doiMatKhau(matKhauCu, matKhauMoi, matKhauNhapLai);
         if(rs == 1){

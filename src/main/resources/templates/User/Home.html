@@ -61,13 +61,13 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li th:each="theLoai : ${listTheLoai}">
-                    <a class="dropdown-item" href="#" th:text="${theLoai.tenTheLoai}"></a>
+                    <a class="dropdown-item" th:href="@{/sach/the-loai/{maTheLoai}(maTheLoai=${theLoai.maTheLoai})}" th:text="${theLoai.tenTheLoai}"></a>
                   </li>
                 </ul>
 
               </li>
-              <form class="justify-content-center d-flex ps-5 pe-5" role="search">
-                <input class="form-control me-2 w-100" type="search" placeholder="Tìm kiếm sách" aria-label="Search">
+              <form th:action="@{/sach/sach-content}" class="justify-content-center d-flex ps-5 pe-5" role="search">
+                <input name="content" class="form-control me-2 w-100" type="search" placeholder="Tìm kiếm sách" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">
                   <i class="fas fa-search"></i>
                 </button>
@@ -110,7 +110,7 @@
 
               </li>
               <li class="nav-item">
-                <a class="nav-link"  href="../Admin/Admin_Home.html"
+                <a class="nav-link"  th:href="@{/sach/sach-admin}"
                   ><i class="fas fa-phone-alt fs-3"></i> Admin</a
                 >
               </li>
@@ -157,9 +157,9 @@
           </div>
         </div>
       <div  class="pagination d-flex justify-content-center mt-4">
-        <a th:if="${currentPage > 0}" th:href="@{/sach/sach-all(page=${currentPage - 1})}"  class="btn btn-secondary mx-2"><-</a>
+        <a th:if="${currentPage > 0}" th:href="@{${phanTrang}(page=${currentPage - 1})}"  class="btn btn-secondary mx-2"><-</a>
         <span class="mx-2 btn" th:text="${currentPage}"></span>
-        <a th:if="${sachList.hasNext()}" th:href="@{/sach/sach-all(page=${currentPage + 1})}"  class="btn btn-secondary mx-2">-></a>
+        <a th:if="${sachList.hasNext()}" th:href="@{${phanTrang}(page=${currentPage + 1})}"  class="btn btn-secondary mx-2">-></a>
       </div>
       </div>
     </div>

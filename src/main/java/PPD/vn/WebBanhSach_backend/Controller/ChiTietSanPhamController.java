@@ -19,7 +19,7 @@ public class ChiTietSanPhamController {
     public String getSachByID(@PathVariable("maSach")String maSach, Model model){
         int maSachTranfer= Integer.valueOf(maSach);
         SachDTO sachDTO = sachRespository.findSachWithTheLoaiAndHinhAnh(maSachTranfer);
-        model.addAttribute("listSachByTheLoai",sachRespository.findSachWithTheLoai(sachDTO.getMaTheLoai()) );
+        model.addAttribute("listSachByTheLoai",sachRespository.findSachWithTheLoaiNoPage(sachDTO.getMaTheLoai()) );
         model.addAttribute("sach",sachDTO );
          return "User/ChiTietSanPham";
     }
