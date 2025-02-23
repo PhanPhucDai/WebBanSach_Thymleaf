@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Giỏ hàng</title>
-
     <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -18,11 +17,10 @@
 
 <div class="container">
     <div th:replace="~{User/header :: header}"></div>
-
     <h4 class="mb-4">Giỏ hàng của bạn</h4>
-
     <div th:if="${chiTietGioHangs.isEmpty()}" class="text-center p-5 bg-light rounded">
-        <img src="https://cdn0.fahasa.com/skin//frontend/ma_vanese/fahasa/images/checkout_cart/ico_emptycart.svg" alt="Empty Cart" class="mb-3" />
+        <img src="https://cdn0.fahasa.com/skin//frontend/ma_vanese/fahasa/images/checkout_cart/ico_emptycart.svg"
+             alt="Empty Cart" class="mb-3"/>
         <p>Bạn chưa có sản phẩm nào trong giỏ hàng</p>
         <a href="/" class="btn btn-danger">Tiếp tục mua sắm</a>
     </div>
@@ -32,7 +30,7 @@
             <table class="table table-hover align-middle text-center">
                 <thead class="table-primary">
                 <tr>
-                    <th><input type="checkbox" id="select-all" class="form-check-input" /></th>
+                    <th><input type="checkbox" id="select-all" class="form-check-input"/></th>
                     <th>Sản phẩm</th>
                     <th>Giá</th>
                     <th>Số lượng</th>
@@ -42,22 +40,28 @@
                 </thead>
                 <tbody>
                 <tr th:each="chiTietGioHang : ${chiTietGioHangs}">
-                    <td><input type="checkbox" class="form-check-input" /></td>
+                    <td><input type="checkbox" class="form-check-input"/></td>
                     <td class="d-flex align-items-center">
-                        <img th:src="${chiTietGioHang.duLieuAnh}" class="me-2" style="width: 80px; height: 80px; object-fit: cover;" />
+                        <img th:src="${chiTietGioHang.duLieuAnh}" class="me-2"
+                             style="width: 80px; height: 80px; object-fit: cover;"/>
                         <span th:text="${chiTietGioHang.sachAll.tenSach}"></span>
                     </td>
-                    <td><del th:text="${chiTietGioHang.sachAll.giaNiemYet}"></del> <br /> <span class="text-danger" th:text="${chiTietGioHang.sachAll.giaBan}"></span></td>
+                    <td>
+                        <del th:text="${chiTietGioHang.sachAll.giaNiemYet}"></del>
+                        <br/> <span class="text-danger" th:text="${chiTietGioHang.sachAll.giaBan}"></span></td>
                     <td>
                         <div class="input-group w-50 mx-auto">
                             <button class="btn btn-outline-secondary">-</button>
-                            <input type="number" class="form-control text-center" th:value="${chiTietGioHang.soluong}" min="1" />
+                            <input type="number" class="form-control text-center" th:value="${chiTietGioHang.soluong}"
+                                   min="1"/>
                             <button class="btn btn-outline-secondary">+</button>
                         </div>
                     </td>
-                    <td class="text-danger fw-bold" th:text="${chiTietGioHang.soluong * chiTietGioHang.sachAll.giaBan}"></td>
+                    <td class="text-danger fw-bold"
+                        th:text="${chiTietGioHang.soluong * chiTietGioHang.sachAll.giaBan}"></td>
                     <td>
-                        <a th:href="@{/xoa-san-pham-gio-hang/{maChiTietGioHang}(maChiTietGioHang=${chiTietGioHang.maChiTietGioHang})}" class="btn btn-outline-danger">
+                        <a th:href="@{/xoa-san-pham-gio-hang/{maChiTietGioHang}(maChiTietGioHang=${chiTietGioHang.maChiTietGioHang})}"
+                           class="btn btn-outline-danger">
                             <i class="fas fa-trash"></i>
                         </a>
                     </td>
@@ -65,10 +69,9 @@
                 </tbody>
             </table>
         </div>
-
         <div class="card p-4 mt-4 shadow-sm">
             <h5 class="text-center">Tổng thanh toán</h5>
-            <hr />
+            <hr/>
             <div class="d-flex justify-content-between">
                 <span class="fw-bold">Tổng tiền (gồm VAT):</span>
                 <span class="text-danger fw-bold fs-5" th:text="${tongTien}"></span>
@@ -76,12 +79,8 @@
             <button class="btn btn-success w-100 mt-3">Thanh toán ngay</button>
         </div>
     </div>
-<!--    Footer-->
+    <!--    Footer-->
     <div th:replace="~{User/footer :: footer}"></div>
-
 </div>
-
 </body>
 </html>
-
-
