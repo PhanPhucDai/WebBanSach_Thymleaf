@@ -1,0 +1,105 @@
+<div th:fragment="header">
+  <nav class="navbar navbar-expand-lg bg-primary-subtle mb-3 rounded-2" style="background: linear-gradient(135deg, #ff9a9e, #fad0c4);">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/Home.html}">
+        <img
+                th:src="@{/logo.jpg}"
+                style="height: 60px; border-radius: 4px"
+                alt="logo"
+        />
+      </a>
+      <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div
+              class="collapse navbar-collapse justify-content-center"
+              id="navbarNav"
+      >
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/sach/sach-all}"
+            ><i class="fas fa-home fs-3"></i> Trang Chủ</a
+            >
+          </li>
+          <li class="nav-item dropdown">
+            <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="theLoaiDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+            >
+              <i class="fas fa-th-list fs-3"></i> Thể Loại
+            </a>
+            <ul class="dropdown-menu">
+              <li th:each="theLoai : ${listTheLoai}">
+                <a class="dropdown-item" href="#" th:text="${theLoai.tenTheLoai}"></a>
+              </li>
+            </ul>
+
+          </li>
+          <form class="justify-content-center d-flex ps-5 pe-5" role="search">
+            <input class="form-control me-2 w-100" type="search" placeholder="Tìm kiếm sách" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/lien-he}"
+            ><i class="fas fa-phone-alt fs-3"></i> Liên Hệ</a
+            >
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-user fs-3"></i>
+              <span sec:authentication="name"></span> <!-- Hiển thị tên tài khoản nếu đã đăng nhập -->
+            </a>
+            <ul class="dropdown-menu">
+              <!-- Nếu chưa đăng nhập -->
+              <li sec:authorize="isAnonymous()">
+                <a class="dropdown-item" th:href="@{/dang-nhap}">
+                  <i class="fas fa-sign-in-alt"></i> Đăng Nhập
+                </a>
+              </li>
+              <li sec:authorize="isAnonymous()">
+                <a class="dropdown-item" th:href="@{/dang-ky}">
+                  <i class="fas fa-user-plus"></i> Đăng Ký
+                </a>
+              </li>
+
+              <!-- Nếu đã đăng nhập -->
+              <li sec:authorize="isAuthenticated()">
+                <a class="dropdown-item" th:href="@{/tai-khoan/nguoi-dung}">
+                  <i class="fas fa-user"></i> Thông Tin Cá Nhân
+                </a>
+              </li>
+              <li sec:authorize="isAuthenticated()">
+                <a class="dropdown-item" th:href="@{/dang-xuat}">
+                  <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+                </a>
+              </li>
+            </ul>
+
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"  href="../Admin/Admin_Home.html"
+            ><i class="fas fa-phone-alt fs-3"></i> Admin</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div class="d-flex">
+        <a class="nav-link text-dark" th:href="@{/gio-hang}">
+          <i class="fas fa-shopping-cart fa-lg fs-3"></i> Giỏ Hàng
+        </a>
+      </div>
+    </div>
+  </nav>
+</div>
