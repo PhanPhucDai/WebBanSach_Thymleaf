@@ -15,8 +15,6 @@ public class DonHang {
     private int maDonHang;
     @Column(name = "ngay_tao")
     private Date ngayTao;
-    @Column(name = "dia_chi_mua_hang")
-    private String diaChiMuaHang;
     @Column(name = "dia_chi_nhan_hang")
     private String diaChiNhanHang;
     @Column(name = "tong_tien_san_pham")

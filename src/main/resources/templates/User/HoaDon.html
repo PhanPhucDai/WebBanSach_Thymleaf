@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,142 +25,75 @@
       class="container pt-3 pb-3"
       style="background: linear-gradient(135deg, #fda4a7, #fad0c4)"
     >
-      <form class="">
+      <form th:action="@{/thuc-hien/thanh-toan}" class="">
         <div class="container bg-white rounded-3">
           <h3 class="text-center pt-2">Địa chỉ giao hàng</h3>
           <hr />
           <div class="row mb-3">
-            <label for="name" class="col-2 fs-5 col-form-label"
-              >Tên người nhận :</label
-            >
+            <label   class="col-2 fs-5 col-form-label" >Tên người nhận :</label >
             <div class="col-10">
-              <input
-                type="text"
-                class="form-control w-75 rounded-2"
-                id="name"
-              />
+              <input th:value="|${nguoiDung.hoDem} ${nguoiDung.ten}|" type="text" class="form-control w-75 rounded-2" id="name" readonly/>
             </div>
           </div>
           <div class="row mb-3">
-            <label for="email" class="col-2 fs-5 col-form-label">Email :</label>
+            <label   class="col-2 fs-5 col-form-label">Email :</label>
             <div class="col-10">
-              <input
-                type="email"
-                class="form-control w-75 rounded-2"
-                id="email"
-              />
+              <input th:value="${nguoiDung.email}" type="email"     class="form-control w-75 rounded-2"  id="email" readonly    />
             </div>
           </div>
           <div class="row mb-3">
-            <label for="phone" class="col-2 fs-5 col-form-label"
-              >Số điện thoại :</label
-            >
+            <label for="phone" class="col-2 fs-5 col-form-label" >Số điện thoại :</label  >
             <div class="col-10">
-              <input
-                type="tel"
-                class="form-control w-75 rounded-2"
-                id="phone"
-              />
+              <input readonly th:value="${nguoiDung.soDienThoai}" type="tel" class="form-control w-75 rounded-2" id="phone" />
             </div>
           </div>
           <div class="row mb-3">
-            <label for="city" class="col-2 fs-5 col-form-label"
-              >Tỉnh/Thành phố :</label
-            >
+            <label for="city" class="col-2 fs-5 col-form-label"  >Tỉnh/Thành phố :</label>
             <div class="col-10">
-              <input
-                type="text"
-                class="form-control w-75 rounded-2"
-                id="city"
-              />
+              <input  name="tinh" type="text"   class="form-control w-75 rounded-2" id="city" />
             </div>
           </div>
           <div class="row mb-3">
-            <label for="district" class="col-2 fs-5 col-form-label"
-              >Quận/Huyện :</label
-            >
+            <label for="district" class="col-2 fs-5 col-form-label" >Quận/Huyện :</label>
             <div class="col-10">
-              <input
-                type="text"
-                class="form-control w-75 rounded-2"
-                id="district"
-              />
+              <input name="huyen" type="text"   class="form-control w-75 rounded-2"  id="district"  />
             </div>
           </div>
           <div class="row mb-3">
-            <label for="ward" class="col-2 fs-5 col-form-label"
-              >Phường/Xã :</label
-            >
+            <label for="ward" class="col-2 fs-5 col-form-label" >Phường/Xã :</label>
             <div class="col-10">
-              <input
-                type="text"
-                class="form-control w-75 rounded-2"
-                id="ward"
-              />
+              <input  name="xa" type="text" class="form-control w-75 rounded-2" id="ward"  />
             </div>
           </div>
           <div class="row mb-3 pb-3">
-            <label for="address" class="col-2 fs-5 col-form-label"
-              >Địa chỉ nhận hàng :</label
-            >
+            <label for="address" class="col-2 fs-5 col-form-label">Địa chỉ nhận hàng :</label>
             <div class="col-10">
-              <input
-                type="text"
-                class="form-control w-75 rounded-2"
-                id="address"
-              />
+              <input name="diaChiNhanHang" type="text"class="form-control w-75 rounded-2" id="address"/>
             </div>
           </div>
         </div>
         <div class="container bg-white rounded-3 mb-3 pb-3">
           <h3 class="text-center pt-2">Phương thức vận chuyển</h3>
           <div class="form-check ms-5 mb-2">
-            <input
-              class="form-check-input"
-              type="radio"
-              name=""
-              value=""
-              id="deliver"
-            />
-            <label class="form-check-label" for="deliver"
-              >Giao hàng tiêu chuẩn</label
-            >
+            <input class="form-check-input" type="radio" name="ptvc" id="tuLayHang" th:value="1"/>
+            <label class="form-check-label" for="deliver">Tự lấy hàng tại nhà bán</label>
+          </div>
+          <div class="form-check ms-5 mb-2">
+            <input class="form-check-input" type="radio" name="ptvc" id="deliver" />
+            <label class="form-check-label" for="deliver">Giao hàng tiêu chuẩn</label>
           </div>
         </div>
-
         <div class="container bg-white rounded-3 mb-3 pb-3">
           <h3 class="text-center pt-2">Phương thức giao hàng</h3>
           <div class="form-check ms-5 mb-2">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="paymentMethod"
-              value="payInCash"
-              id="payInCash"
-              onchange="document.querySelector('#qr-img').style.display = 'none';"
-            />
-            <label class="form-check-label" for="payInCash">
-              Thanh toán bằng tiền mặt
-            </label>
+            <input class="form-check-input" type="radio" name="paymentMethod" value="payInCash" id="payInCash"
+              onchange="document.querySelector('#qr-img').style.display = 'none';" />
+            <label class="form-check-label" for="payInCash">Thanh toán bằng tiền mặt </label>
           </div>
           <div class="form-check ms-5">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="paymentMethod"
-              value="payByQR"
-              id="payByQR"
-              onchange="document.querySelector('#qr-img').style.display = 'block';"
-            />
-            <label class="form-check-label" for="payByQR">
-              Thanh toán bằng QR
-              <img
-                class="justify-content-end"
-                src="../../static/payByQR.jpg"
-                alt=""
-                style="display: none; width: 200px"
-                id="qr-img"
-              />
+            <input class="form-check-input" type="radio" name="paymentMethod" value="payByQR" id="payByQR" onchange="document.querySelector('#qr-img').style.display = 'block';"/>
+            <label class="form-check-label" for="payByQR">Thanh toán bằng QR
+              <img class="justify-content-end" src="../../static/payByQR.jpg" alt="" style="display: none; width: 200px" id="qr-img"  />
             </label>
           </div>
         </div>
@@ -168,13 +101,7 @@
           <h3 class="text-center pt-2">Nhập mã khuyến mãi</h3>
           <div class="input-group">
             <input type="text" class="form-control" id="promotionCode" />
-            <button
-              class="btn btn-primary"
-              type="button"
-              id="btnApplyPromotionCode"
-            >
-              Nhập mã
-            </button>
+            <button class="btn btn-primary" type="button" id="btnApplyPromotionCode"> Nhập mã</button>
           </div>
         </div>
         <div class="container bg-white rounded-3 mb-3 pb-3">
@@ -183,12 +110,7 @@
           <div class="card mb-3">
             <div class="row g-0">
               <div class="col-md-4">
-                <img
-                  src="../../static/ebook.jpg"
-                  class="img-fluid rounded-start"
-                  alt="..."
-                  style="width: 150px"
-                />
+                <img src="../../static/ebook.jpg" class="img-fluid rounded-start" alt="..." style="width: 150px" />
               </div>
               <div class="col-md-8">
                 <div class="card-body">
@@ -197,27 +119,11 @@
                     <small class="text-muted">Giá</small>
                   </p>
                   <div class="input-group">
-                    <button
-                      class="btn btn-outline-secondary"
-                      type="button"
-                      id="button-addon1"
-                      onclick="changeQuantity(-1)"
-                    >
+                    <button  class="btn btn-outline-secondary" type="button" id="button-addon1" onclick="changeQuantity(-1)">
                       <i class="fa-solid fa-minus"></i>
                     </button>
-                    <input
-                      type="number"
-                      class="form-control"
-                      value="1"
-                      min="1"
-                      id="quantity"
-                    />
-                    <button
-                      class="btn btn-outline-secondary"
-                      type="button"
-                      id="button-addon2"
-                      onclick="changeQuantity(1)"
-                    >
+                    <input type="number" class="form-control" value="1"  min="1" id="quantity" />
+                    <button  class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="changeQuantity(1)">
                       <i class="fa-solid fa-plus"></i>
                     </button>
                   </div>

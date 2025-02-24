@@ -104,7 +104,7 @@ public class SachController {
 
     @PostMapping("/them-sach")
     public String crudSach(@RequestParam(value = "action", required = false) String action,
-                           @RequestParam(value = "maSach", required = false) int maSach,
+                           @RequestParam(value = "maSach", required = false) String maSach,
                            @RequestParam("tenSach")String tenSach,
                            @RequestParam("giaBan")String giaBan,
                            @RequestParam("giaNiemYet")String giaNiemYet,
@@ -116,6 +116,7 @@ public class SachController {
                            @RequestParam("trungBinhXepHang")String trungBinhXepHang,
                            @RequestParam("duLieuAnh") MultipartFile duLieuAnh
                             ,Model model){
+
         if ("create".equals(action)) {
              // Xử lý tạo sách
             System.out.println(duLieuAnh);
@@ -133,7 +134,7 @@ public class SachController {
             System.out.println(duLieuAnh);
 
             Sach  sach = new Sach(tenSach,tenTacGia,ISBN,moTa,"",Double.parseDouble(giaNiemYet),Double.parseDouble(giaBan),Integer.parseInt(soLuong),Double.parseDouble(trungBinhXepHang));
-            if(!sachServide.update(maSach, sach, duLieuAnh, Integer.parseInt(maTheLoai))){
+            if(!sachServide.update(Integer.parseInt(maSach), sach, duLieuAnh, Integer.parseInt(maTheLoai))){
                 model.addAttribute("Không thể thêm Sách mới");
                 System.out.println(duLieuAnh);
             }
@@ -142,7 +143,7 @@ public class SachController {
             // Xử lý cập nhật sách
         } else if ("delete".equals(action)) {
             System.out.println("Người dùng nhấn nút Delete");
-            sachServide.delete(maSach);
+            sachServide.delete(Integer.parseInt(maSach));
             model.addAttribute("Đã Xóa Sách  ");
             // Xử lý xóa sách
         } else if ("reset".equals(action)) {

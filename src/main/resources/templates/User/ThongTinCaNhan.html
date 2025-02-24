@@ -74,9 +74,10 @@
     />
 </head>
 <body>
-<div class="alert alert-success"   role="alert" th:if="${message}">
+<div class="alert alert-success toast align-items-center text-white bg-success position-fixed top-0 end-0 m-3" role="alert" th:if="${message != null and not #strings.isEmpty(message)}">
     <span th:text="${message}"></span>
 </div>
+
 <div class="container-fluid">
     <div th:replace="~{User/header :: header}"></div>
 

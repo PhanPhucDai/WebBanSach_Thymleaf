@@ -40,7 +40,16 @@
                 </thead>
                 <tbody>
                 <tr th:each="chiTietGioHang : ${chiTietGioHangs}">
-                    <td><input type="checkbox" class="form-check-input"/></td>
+                    <td> <form th:action="@{/chon-san-pham-thanh-toan}" method="post">
+                        <input type="hidden" name="maSach" th:value="${chiTietGioHang.sachAll.maSach}">
+                        <input type="hidden" name="maGioHang" th:value="${chiTietGioHang.gioHang}">
+                        <input type="hidden" name="soLuong" th:value="${chiTietGioHang.soluong}">
+                        <input class="form-check-input me-2" type="checkbox" name="isSelected"
+                               th:checked="${chiTietGioHang.isSelected == 1}"
+                               th:data
+                               value="1"
+                               onchange="this.form.submit()">
+                    </form></td>
                     <td class="d-flex align-items-center">
                         <img th:src="${chiTietGioHang.duLieuAnh}" class="me-2"
                              style="width: 80px; height: 80px; object-fit: cover;"/>
@@ -50,11 +59,22 @@
                         <del th:text="${chiTietGioHang.sachAll.giaNiemYet}"></del>
                         <br/> <span class="text-danger" th:text="${chiTietGioHang.sachAll.giaBan}"></span></td>
                     <td>
-                        <div class="input-group w-50 mx-auto">
-                            <button class="btn btn-outline-secondary">-</button>
-                            <input type="number" class="form-control text-center" th:value="${chiTietGioHang.soluong}"
-                                   min="1"/>
-                            <button class="btn btn-outline-secondary">+</button>
+                        <div class="input-group">
+                            <form th:action="@{/xoa-so-luong}" method="post">
+                                <input type="hidden" name="maSach" th:value="${chiTietGioHang.sachAll.maSach}">
+                                <input type="hidden" name="maGioHang" th:value="${chiTietGioHang.gioHang}">
+                                <input type="hidden" name="soLuong" th:value="${chiTietGioHang.soluong}">
+                                <input type="hidden" name="maChiTietGioHang" th:value="${chiTietGioHang.maChiTietGioHang}">
+                                <button class="btn  btn-success" type="submit">-</button>
+                            </form>
+                            <input type="text" class="form-control" th:value="${chiTietGioHang.soluong}" min="1" name="soLuong" readonly>
+                            <form th:action="@{/them-so-luong}" method="post">
+                                <input type="hidden" name="maSach" th:value="${chiTietGioHang.sachAll.maSach}">
+                                <input type="hidden" name="maGioHang" th:value="${chiTietGioHang.gioHang}">
+                                <input type="hidden" name="soLuong" th:value="${chiTietGioHang.soluong}">
+                                <input type="hidden" name="maChiTietGioHang" th:value="${chiTietGioHang.maChiTietGioHang}">
+                                <button class="btn  btn-success"  type="submit">+</button>
+                            </form>
                         </div>
                     </td>
                     <td class="text-danger fw-bold"
@@ -76,7 +96,7 @@
                 <span class="fw-bold">Tổng tiền (gồm VAT):</span>
                 <span class="text-danger fw-bold fs-5" th:text="${tongTien}"></span>
             </div>
-            <button class="btn btn-success w-100 mt-3">Thanh toán ngay</button>
+            <a class="btn btn-success w-100 mt-3" th:href="@{/don-hang}">Thanh toán ngay</a>
         </div>
     </div>
     <!--    Footer-->
