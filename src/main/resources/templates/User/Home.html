@@ -59,12 +59,10 @@
         <a th:if="${sachList.hasNext()}" th:href="@{/sach/sach-all(page=${currentPage + 1})}"  class="btn btn-secondary mx-2">-></a>
       </div>
       </div>
+      <!-- Footer -->
+      <div th:replace="~{User/footer :: footer}"></div>
+
     </div>
-    <!-- Footer -->
-    <div>
-        <div class="text-center mb-3">
-          <img th:src="@{ftbanner.jpg}" alt="" style="width: -webkit-fill-available; border-radius: 4px;"/>
-        </div>
-      </div>
+
   </body>
 </html>
