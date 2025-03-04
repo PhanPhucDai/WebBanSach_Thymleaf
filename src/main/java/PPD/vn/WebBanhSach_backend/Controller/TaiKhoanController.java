@@ -80,7 +80,8 @@ public class TaiKhoanController {
 
 
     @PostMapping("/dang-ki")
-    public String dangKiTaiKhoan(@ModelAttribute NguoiDung nguoiDung,@RequestParam("confirmPassword")String xacNhanMatKhau, Model model){
+    public String dangKiTaiKhoan(@ModelAttribute NguoiDung nguoiDung
+            ,@RequestParam("confirmPassword")String xacNhanMatKhau, Model model){
 
         String hoDem = nguoiDung.getHoDem();;
         String ten = nguoiDung.getTen();

@@ -28,7 +28,8 @@
         <h1 class="text" th:text="${sach.tenSach}"></h1>
         <p class="text-secondary fs-5">Tác giả:<span th:text="${sach.tenTacGia}"></span>  </p>
         <p><span class="text-danger fs-3 " th:text="${sach.giaNiemYet}"></span> <span class="text-decoration-line-through fs-4 p-2" th:text="${sach.giaBan}">150.000 VND</span></p>
-        <button class="btn btn-outline-primary">Thêm vào giỏ hàng</button>
+         <a th:href="@{/them-san-pham-gio-hang/{maSach}(maSach=${sach.maSach})}" class="btn btn-outline-primary" > Thêm vào giỏ hàng </a>
+
         <button class="btn btn-primary">Mua ngay</button>
       </div>
 
