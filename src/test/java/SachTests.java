@@ -15,7 +15,7 @@ import java.util.List;
 public class SachTests {
 
     private static WebDriver driver;
-    private static final String BASE_URL = "http://localhost:2354";
+    private static final String BASE_URL = "http://localhost:8080";
 
     @BeforeAll
     static void setUp() {
@@ -76,6 +76,9 @@ public class SachTests {
             Thread.sleep(1000);
 
             Assertions.assertTrue(driver.getCurrentUrl().contains("/sach-admin"));
+            Assertions.assertTrue(() -> {  System.out.println("ok");
+                return true;
+            });
         } catch (Exception e) {
             Assertions.fail("Create book failed: " + e.getMessage());
         }
