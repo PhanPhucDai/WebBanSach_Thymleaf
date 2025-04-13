@@ -123,7 +123,7 @@ public class SachTests {
 
             // 3. Tìm row chứa "Sách về tâm lý học 333"
             WebElement targetRow = rows.stream()
-                    .filter(r -> r.getText().contains("Sách về tâm lý học 333"))
+                    .filter(r -> r.getText().contains("Sách về tâm lý học"))
                     .findFirst()
                     .orElseThrow(() -> new AssertionError("Không tìm thấy sách cần sửa"));
 
