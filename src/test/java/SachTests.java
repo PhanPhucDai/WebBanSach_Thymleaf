@@ -76,7 +76,8 @@ public class SachTests {
             Thread.sleep(1000);
 
             Assertions.assertTrue(driver.getCurrentUrl().contains("/sach-admin"));
-            Assertions.assertTrue(() -> {  System.out.println("ok");
+            Assertions.assertTrue(() -> {
+                System.out.println("ok");
                 return true;
             });
         } catch (Exception e) {
@@ -96,7 +97,7 @@ public class SachTests {
 
             // Verify test book exists
             List<WebElement> rows = driver.findElement(By.tagName("table")).findElements(By.tagName("tr"));
-            boolean found = rows.stream().anyMatch(row -> row.getText().contains("Test Book"));
+            boolean found = rows.stream().anyMatch(row -> row.getText().contains("Sách về tâm lý học"));
             Assertions.assertTrue(found, "Test Book not found in the table");
 
 
@@ -105,63 +106,64 @@ public class SachTests {
         }
     }
 
+
     @Test
     @Order(3)
     public void testUpdateSach() {
         try {
-            driver.get("http://localhost:8080/sach");
+            // 1. Vào thẳng trang admin sách (có cả table + form)
+            driver.get("http://localhost:8080/sach/sach-admin");
 
-            // Tìm hàng chứa sách cần sửa (ví dụ sách có tên là "Test Book")
-            List<WebElement> rows = driver.findElements(By.cssSelector("table tbody tr"));
-            WebElement targetRow = null;
-            for (WebElement row : rows) {
-                if (row.getText().contains("Test Book")) {
-                    targetRow = row;
-                    break;
-                }
-            }
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            // 2. Chờ table load xong ít nhất 1 <tr>
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("tbody tr")));
 
-            Assertions.assertNotNull(targetRow, "Không tìm thấy sách cần sửa");
+            List<WebElement> rows = driver.findElements(By.cssSelector("tbody tr"));
+            System.out.println("Số dòng tìm được: " + rows.size());
 
-            // Scroll đến nút sửa (giả sử là class btn-warning)
-            WebElement editButton = targetRow.findElement(By.className("btn-warning"));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", editButton);
+            // 3. Tìm row chứa "Sách về tâm lý học 333"
+            WebElement targetRow = rows.stream()
+                    .filter(r -> r.getText().contains("Sách về tâm lý học 333"))
+                    .findFirst()
+                    .orElseThrow(() -> new AssertionError("Không tìm thấy sách cần sửa"));
 
-            // Chờ để nút có thể click được
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            wait.until(ExpectedConditions.elementToBeClickable(editButton));
+            // 4. Click nút Chỉnh sửa (btn-secondary)
+            WebElement editBtn = targetRow.findElement(By.cssSelector("a.btn.btn-secondary"));
+            // scroll nó vào giữa màn hình cho chắc
+            ((JavascriptExecutor) driver)
+                    .executeScript("arguments[0].scrollIntoView({block:'center'});", editBtn);
+            wait.until(ExpectedConditions.elementToBeClickable(editBtn));
+            editBtn.click();
 
-            // Click nút sửa
-            editButton.click();
-
-            // Chờ form hiện ra và nhập thông tin mới
-            WebElement tenSachInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("tenSach")));
+            // 5. Chờ form hiện ra, sửa tên sách
+            WebElement tenSachInput = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.id("tenSach")));
             tenSachInput.clear();
             tenSachInput.sendKeys("Sách về khoa học");
 
-            // Gửi form (giả sử có nút submit với type='submit')
-            WebElement submitBtn = driver.findElement(By.cssSelector("button[type='submit']"));
-            submitBtn.click();
+            // 6. Click nút Update đúng value="update" bằng JS (tránh bị overlay chặn)
+            WebElement updateBtn = driver.findElement(
+                    By.cssSelector("button[name='action'][value='update']"));
+            ((JavascriptExecutor) driver)
+                    .executeScript("arguments[0].scrollIntoView({block:'center'});", updateBtn);
+            ((JavascriptExecutor) driver)
+                    .executeScript("arguments[0].click();", updateBtn);
 
-            // Quay lại trang danh sách, kiểm tra tên sách mới đã cập nhật
-            driver.get("http://localhost:8080/sach");
+            // 7. Refresh page & verify
+            driver.navigate().refresh();
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("tbody tr")));
+            boolean found = driver.findElements(By.cssSelector("tbody tr"))
+                    .stream()
+                    .anyMatch(r -> r.getText().contains("Sách về khoa học"));
 
-            List<WebElement> updatedRows = driver.findElements(By.cssSelector("table tbody tr"));
-            boolean foundUpdated = false;
-            for (WebElement row : updatedRows) {
-                if (row.getText().contains("Sách về khoa học")) {
-                    foundUpdated = true;
-                    break;
-                }
-            }
-
-            Assertions.assertTrue(foundUpdated, "Không tìm thấy sách sau khi cập nhật");
+            Assertions.assertTrue(found, "Không tìm thấy sách sau khi cập nhật");
 
         } catch (Exception e) {
             e.printStackTrace();
             Assertions.fail("Update book failed: " + e.getMessage());
         }
     }
+
 
 
     @Test
